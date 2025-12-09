@@ -1,0 +1,11 @@
+if has('win32')
+    set guifont=Hack_Nerd_Font_Mono:h12,Consolas:h12
+    set guifontwide=MS_Gothic:h12
+    set linespace=0
+    set renderoptions=type:directx
+
+    augroup gvimrc
+        autocmd!
+        autocmd GUIEnter * simalt ~x
+    augroup END
+endif

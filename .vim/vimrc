@@ -1,0 +1,332 @@
+" initialize
+scriptversion 4
+
+" options
+set autoindent
+set autoread
+set background=dark
+set ballooneval
+set balloonevalterm
+set belloff=all
+set clipboard^=unnamed
+set completeopt=menuone,noinsert,popup
+set cmdheight=2
+set diffopt+=vertical
+set display=truncate
+set encoding=utf-8
+set expandtab
+set fileformats=unix,dos
+set formatoptions+=mM
+set grepformat=%f:%l:%c:%m
+set grepprg=rg\ --vimgrep\ --follow\ --hidden
+set hidden
+set history=10000
+set hlsearch
+set ignorecase
+set incsearch
+set laststatus=2
+set lazyredraw
+set list
+set listchars=tab:>-,leadmultispace:\ \ \ \|,trail:_,extends:>,precedes:<,conceal:*,nbsp:_
+set nrformats-=octal
+set ruler
+set scrolloff=4
+set shiftwidth=4
+set shortmess+=c
+set showbreak=-->\ 
+set showcmd
+set showmatch
+set sidescroll=1
+set sidescrolloff=8
+set signcolumn=yes
+set smartcase
+set smartindent
+set smarttab
+set softtabstop=-1
+set spelllang=en,cjk
+set spelloptions=camel
+set splitbelow
+set splitright
+set statusline=%<%f\ %y%m%r%h%w%q%{'['.(&fileencoding!=''?&fileencoding:&encoding).']['.&fileformat.']'}%=%p%%\ [%l/%L\ %v]
+set noswapfile
+set tabstop=4
+set virtualedit=block
+set whichwrap+=<,>,~,[,]
+set wildignorecase
+set wildmode=longest:full,full
+set wildoptions=pum
+set nowrap
+set nowritebackup
+
+if has('win32')
+    set completeslash=slash
+endif
+
+if has('gui_running')
+    set background=light
+    set guioptions+=chk guioptions-=T guioptions-=e guioptions-=m
+endif
+
+if has('termguicolors')
+    set termguicolors
+endif
+
+if has('vim_starting')
+    let &t_SI ..= "\e[6 q"
+    let &t_EI ..= "\e[2 q"
+    let &t_SR ..= "\e[4 q"
+endif
+
+" autocmds
+augroup vimrc
+    autocmd!
+    autocmd BufNewFile,BufRead *.bat,*.cmd,*.ps1,*.reg setlocal fileformat=dos fileencoding=default completeslash=backslash
+    autocmd FileType help,qf,aichat,fern,fugitive nnoremap <buffer> q <Esc>:close<CR>
+augroup END
+
+" commands
+command! -nargs=* -complete=dir Grep silent grep! <args> | cwindow
+
+" keymaps
+let g:mapleader = ','
+let g:maplocalleader = ' '
+
+noremap j gj
+noremap k gk
+noremap n nzz
+noremap N Nzz
+noremap Y y$
+
+noremap! <C-a> <Home>
+noremap! <C-b> <Left>
+noremap! <C-d> <Del>
+noremap! <C-e> <End>
+noremap! <C-f> <Right>
+noremap! <C-n> <Down>
+noremap! <C-p> <Up>
+
+nnoremap <silent> <Esc><Esc> :<C-u>nohlsearch<CR>
+
+nnoremap <silent> t$ :<C-u>blast<CR>
+nnoremap <silent> t0 :<C-u>brewind<CR>
+nnoremap <silent> td :<C-u>bdelete<CR>
+nnoremap <silent> tn :<C-u>bnext<CR>
+nnoremap <silent> tp :<C-u>bprevious<CR>
+
+nnoremap <silent> <Leader>sh :<C-u>vertical terminal ++close<CR>
+
+if executable('zenhan.exe')
+    inoremap <silent> <Esc> <Esc>:<C-u>silent call system('zenhan.exe 0')<CR>
+elseif executable('im-select')
+    inoremap <silent> <Esc> <Esc>:<C-u>silent call system('im-select com.apple.keylayout.ABC')<CR>
+endif
+
+" plugins
+let g:loaded_getscriptPlugin = 1
+let g:loaded_logiPat = 1
+let g:loaded_manpager_plugin = 1
+let g:loaded_netrw = 1 | let g:loaded_netrwPlugin = 1
+let g:loaded_tutor_mode_plugin = 1
+let g:loaded_vimballPlugin = 1
+
+let s:vimplug_path = exists('$MYVIMDIR')
+            \   ? expand('$MYVIMDIR/autoload/plug.vim')
+            \   : has('win32')
+            \       ? expand('$HOME/vimfiles/autoload/plug.vim')
+            \       : expand('$HOME/.vim/autoload/plug.vim')
+
+if !filereadable(s:vimplug_path)
+    if !executable('git')
+        echoerr 'Please install git first.'
+        finish
+    endif
+
+    if executable('curl')
+        call system('curl -fLo ' .. shellescape(s:vimplug_path) .. ' --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim')
+    endif
+
+    if !filereadable(s:vimplug_path)
+        echoerr 'Please install the vim-plug manually. You can download it from https://github.com/junegunn/vim-plug and put it in ' .. s:vimplug_path
+        finish
+    endif
+endif
+
+" vim-plug
+if plug#begin()
+    Plug 'NLKNguyen/papercolor-theme'
+    Plug 'airblade/vim-gitgutter', { 'on': [] }
+    Plug 'dhruvasagar/vim-table-mode', { 'on': [] }
+    Plug 'easymotion/vim-easymotion', { 'on': [] }
+    Plug 'editorconfig/editorconfig-vim', { 'on': [] }
+    Plug 'github/copilot.vim', { 'on': [] }
+    Plug 'itchyny/lightline.vim' | Plug 'mengelbrecht/lightline-bufferline'
+    Plug 'junegunn/fzf', { 'on': [] } | Plug 'junegunn/fzf.vim', { 'on': [] }
+    Plug 'junegunn/gv.vim', { 'on': [] }
+    Plug 'kazuya-watanabe/note.vim', { 'on': [] }
+    Plug 'lambdalisue/vim-fern', { 'on': [] } | Plug 'lambdalisue/vim-fern-renderer-nerdfont', { 'on': [] } | Plug 'LumaKernel/fern-mapping-fzf.vim', { 'on': [] } | Plug 'yuki-yano/fern-preview.vim', { 'on': [] }
+    Plug 'lambdalisue/vim-nerdfont' | Plug 'lambdalisue/vim-glyph-palette', { 'on': [] }
+    Plug 'madox2/vim-ai', { 'on': [] }
+    Plug 'prabirshrestha/asyncomplete.vim' | Plug 'prabirshrestha/asyncomplete-lsp.vim'
+    Plug 'prabirshrestha/vim-lsp' | Plug 'mattn/vim-lsp-settings'
+    Plug 'tpope/vim-commentary', { 'on': [] }
+    Plug 'tpope/vim-fugitive', { 'on': [] }
+    Plug 'tpope/vim-repeat', { 'on': [] }
+    Plug 'tpope/vim-surround', { 'on': [] }
+    Plug 'vim-jp/vimdoc-ja', { 'on': [] }
+    Plug 'vim-skk/eskk.vim', { 'on': [] }
+
+    " asyncomplete.vim
+    let g:asyncomplete_auto_completeopt = 0
+
+    " copilot.vim
+    let g:copilot_no_tab_map = v:true
+
+    imap <silent><script><expr> <M-i> copilot#Accept("\<CR>")
+    imap <M-n> <Plug>(copilot-next)
+    imap <M-p> <Plug>(copilot-previous)
+
+    " eskk.vim
+    let g:eskk#directory = exists('$XDG_DATA_HOME')
+                \   ? expand('$XDG_DATA_HOME/skk')
+                \   : expand('$HOME/.local/share/skk')
+    let g:eskk#dictionary = {
+                \   'path': g:eskk#directory .. '/SKK-JISYO.local',
+                \   'sorted': 1,
+                \   'encoding': 'utf-8',
+                \   }
+    let g:eskk#large_dictionary = {
+                \   'path': g:eskk#directory .. '/SKK-JISYO.L',
+                \   'sorted': 1,
+                \   'encoding': 'euc-jp',
+                \   }
+    let g:eskk#show_candidates_count = 1
+    let g:eskk#show_annotation = 1
+
+    " fzf
+    let g:fzf_action = {
+                \   'Ctrl-t': 'tab split',
+                \   'Ctrl-i': 'split',
+                \   'Ctrl-s': 'vsplit'
+                \   }
+    let g:fzf_layout = {
+                \   'window': { 'width': 0.9, 'height': 0.8 },
+                \   }
+    let g:fzf_vim = {
+                \   'command_prefix': 'Fzf',
+                \   'listproc': { list -> fzf#vim#listproc#quickfix(list) },
+                \   'listproc_rg': { list -> fzf#vim#listproc#location(list) },
+                \   }
+
+    nnoremap <silent> <Leader>b :<C-u>FzfBuffers<CR>
+    nnoremap <silent> <Leader>f :<C-u>FzfFiles<CR>
+    nnoremap <silent> <Leader>g :<C-u>FzfGFiles<CR>
+
+    " lightline.vim
+    let g:lightline = {
+                \   'active': {
+                \       'left': [ [ 'mode', 'paste' ], [ 'branch', 'readonly', 'filename', 'modified' ], [ 'skk' ] ],
+                \       'right': [ [ 'lineinfo' ], [ 'percent' ], [ 'fileformat', 'fileencoding', 'filetype' ] ],
+                \       },
+                \   'colorscheme': 'PaperColor',
+                \   'component': { 'filename': '%{nerdfont#find()} %t' },
+                \   'component_expand': { 'buffers': 'lightline#bufferline#buffers' },
+                \   'component_function': { 'branch': 'FugitiveHead', 'skk': 'eskk#statusline' },
+                \   'component_type': { 'buffers': 'tabsel' },
+                \   'separator': { 'left': '', 'right': '' },
+                \   'subseparator': { 'left': '', 'right': '' },
+                \   'tabline': { 'left': [ [ 'buffers' ] ], 'right': [ [ 'close' ] ] },
+                \   }
+    let g:lightline#bufferline#enable_nerdfont = 1
+    let g:lightline#bufferline#margin_left = 1
+    let g:lightline#bufferline#unicode_symbols = 1
+
+    nnoremap <silent> t[ :<C-u>call lightline#bufferline#move_previous()<CR>
+    nnoremap <silent> t] :<C-u>call lightline#bufferline#move_next()<CR>
+
+    set showtabline=2
+
+    " vim-ai
+    let g:vim_ai_chat_markdown = 1
+    let g:vim_ai_token_file_path = exists('$XDG_CONFIG_HOME')
+                \   ? expand('$XDG_CONFIG_HOME/openai.token')
+                \   : expand('$HOME/.config/openai.token')
+    let g:vim_ai_roles_config_file = exists('$MYVIMDIR')
+                \   ? expand('$MYVIMDIR/roles.ini')
+                \   : has('win32')
+                \       ? expand('$HOME/vimfiles/roles.ini')
+                \       : expand('$HOME/.vim/roles.ini')
+
+    autocmd vimrc FileType aichat noremap! <silent><buffer> <S-CR> <Esc>:<C-u>AIChat<CR>
+
+    " vim-fern
+    let g:fern#default_exclude = '^\%(\.git\|\.svn\|\.hg\|node_modules\|vendor\)$'
+    let g:fern#default_hidden = 1
+    let g:fern#renderer = 'nerdfont'
+    let g:fern#scheme#file#mapping#mappings = []
+
+    function s:Fern() abort
+        if empty(&buftype) && bufname('%') != ''
+            Fern . -reveal=%
+        else
+            Fern .
+        endif
+    endfunction
+
+    nnoremap <silent> <Leader>e :<C-u>call <SID>Fern()<CR>
+
+    function! s:InitFernPreview() abort
+        nmap <silent> <buffer> p     <Plug>(fern-action-preview:toggle)
+        nmap <silent> <buffer> <C-p> <Plug>(fern-action-preview:auto:toggle)
+        nmap <silent> <buffer> <C-d> <Plug>(fern-action-preview:scroll:down:half)
+        nmap <silent> <buffer> <C-u> <Plug>(fern-action-preview:scroll:up:half)
+    endfunction
+
+    autocmd vimrc FileType fern call glyph_palette#apply() | call s:InitFernPreview()
+
+    " vim-lsp
+    let g:lsp_use_native_client = 1
+
+    nmap <Leader>ca <plug>(lsp-code-action)
+    nmap <Leader>cl <plug>(lsp-code-lens)
+    nmap gd         <plug>(lsp-definition)
+    nmap gs         <plug>(lsp-workspace-symbol-search)
+    nmap gr         <plug>(lsp-references)
+    nmap gi         <plug>(lsp-implementation)
+    nmap gt         <plug>(lsp-type-definition)
+    nmap [g         <plug>(lsp-previous-diagnostic)
+    nmap ]g         <plug>(lsp-next-diagnostic)
+    nmap <Leader>rn <plug>(lsp-rename)
+    nmap K          <plug>(lsp-hover)
+
+    function! s:FormatHandler(line1, line2) abort
+        if a:line1 == 1 && a:line2 == line('$')
+            execute 'LspDocumentFormat'
+        else
+            execute a:line1 .. ',' .. a:line2 .. 'LspDocumentRangeFormat'
+        endif
+    endfunction
+
+    command! -nargs=0 -range=% Format call s:FormatHandler(<line1>, <line2>)
+
+    " vim-plug end
+    call plug#end()
+
+    if len(filter(values(g:plugs), '!isdirectory(v:val.dir)'))
+        echomsg 'Please wait for a while to complete the installation.'
+
+        PlugInstall --sync
+
+        echohl WarningMsg | echomsg 'Installation completed. Please restart Vim.' | echohl None
+
+        finish
+    endif
+
+    function! s:LoadPlugs(timer)
+        call plug#load(keys(g:plugs))
+    endfunction
+
+    call timer_start(500, function('s:LoadPlugs'))
+
+    " papercolor-theme
+    colorscheme PaperColor
+endif
