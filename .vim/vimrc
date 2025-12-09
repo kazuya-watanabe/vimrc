@@ -1,0 +1,318 @@
+" options
+set autoindent
+set autoread
+set background=dark
+set ballooneval
+set balloonevalterm
+set belloff=all
+set clipboard^=unnamed
+set completeopt=menuone,noinsert,popup
+set cmdheight=2
+set diffopt+=vertical
+set display=truncate
+set encoding=utf-8
+set expandtab
+set fileformats=unix,dos
+set formatoptions+=mM
+set grepformat=%f:%l:%c:%m
+set grepprg=rg\ --vimgrep\ --follow\ --hidden\ --smart-case
+set hidden
+set history=10000
+set hlsearch
+set ignorecase
+set incsearch
+set laststatus=2
+set lazyredraw
+set list
+set listchars=tab:>-,leadmultispace:\ \ \ \|,trail:_,extends:>,precedes:<,conceal:*,nbsp:_
+set nrformats-=octal
+set number
+set ruler
+set scrolloff=10
+set sessionoptions+=globals,localoptions
+set shiftwidth=4
+set shortmess+=c
+set showbreak=-->\ 
+set showcmd
+set showmatch
+set showtabline=2
+set sidescroll=1
+set sidescrolloff=20
+set signcolumn=yes
+set smartcase
+set smartindent
+set smarttab
+set softtabstop=-1
+set spelllang=en,cjk
+set spelloptions=camel
+set splitbelow
+set splitright
+set statusline=%<%f\ %y%m%r%h%w%q%{'['.(&fileencoding!=''?&fileencoding:&encoding).']['.&fileformat.']'}%=%p%%\ [%l/%L\ %v]
+set tabstop=4
+set virtualedit=block
+set whichwrap+=<,>,~,[,]
+set wildignorecase
+set wildmode=longest:full,full
+set wildoptions=pum
+set nowrap
+set nowritebackup
+
+if has('gui_running')
+    set background=light
+    set guioptions+=cMhk guioptions-=e guioptions-=m guioptions-=T
+endif
+
+if has('termguicolors')
+    set termguicolors
+endif
+
+if has('vim_starting')
+    let &t_SI .= "\e[6 q"
+    let &t_EI .= "\e[2 q"
+    let &t_SR .= "\e[4 q"
+endif
+
+" autocmds
+augroup vimrc
+    autocmd!
+    autocmd BufNewFile,BufRead *.bat,*.cmd,*.ps1,*.reg setlocal fileformat=dos fileencoding=default
+    autocmd FileType help,qf,aichat,fern,fugitive nnoremap <buffer> q <Esc>:close<CR>
+augroup END
+
+" commands
+command! -nargs=* -complete=dir Grep silent grep! <args> | cwindow
+
+" keymaps
+let g:mapleader = ','
+let g:maplocalleader = ' '
+
+noremap j gj
+noremap k gk
+noremap n nzz
+noremap N Nzz
+noremap Y y$
+
+noremap! <C-a> <Home>
+noremap! <C-b> <Left>
+noremap! <C-d> <Del>
+noremap! <C-e> <End>
+noremap! <C-f> <Right>
+noremap! <C-n> <Down>
+noremap! <C-p> <Up>
+
+nnoremap <silent> <Esc><Esc> :<C-u>nohlsearch<CR>
+
+if has('win32')
+    set completeslash=slash
+    nnoremap <silent> <leader>sh :<C-u>vertical terminal ++close powershell.exe -NoLogo<CR>
+else
+    nnoremap <silent> <leader>sh :<C-u>vertical terminal ++close<CR>
+endif
+
+if executable('zenhan.exe')
+    inoremap <silent> <Esc> <Esc>:<C-u>silent call system('zenhan.exe 0')<CR>
+elseif executable('im-select')
+    inoremap <silent> <Esc> <Esc>:<C-u>silent call system('im-select com.apple.keylayout.ABC')<CR>
+endif
+
+" plugins
+let g:loaded_getscriptPlugin = 1
+let g:loaded_logiPat = 1
+let g:loaded_manpager_plugin = 1
+let g:loaded_netrw = 1 | let g:loaded_netrwPlugin = 1
+let g:loaded_tutor_mode_plugin = 1
+let g:loaded_vimballPlugin = 1 | let g:loaded_vimball = 1
+
+let s:vimplug_path = exists('$MYVIMDIR')
+            \   ? expand('$MYVIMDIR/autoload/plug.vim')
+            \   : has('win32')
+            \       ? expand('$HOME/vimfiles/autoload/plug.vim')
+            \       : expand('$HOME/.vim/autoload/plug.vim')
+
+if !filereadable(s:vimplug_path)
+    if !executable('git')
+        echoerr 'Please install git first.'
+        finish
+    endif
+
+    if executable('curl')
+        call system('curl -fLo ' . shellescape(s:vimplug_path) . ' --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim')
+    endif
+
+    if !filereadable(s:vimplug_path)
+        echoerr 'Please install the vim-plug manually. You can download it from https://github.com/junegunn/vim-plug and put it in ' . s:vimplug_path
+        finish
+    endif
+endif
+
+" vim-plug
+if plug#begin()
+    Plug 'NLKNguyen/papercolor-theme'
+    Plug 'airblade/vim-gitgutter', { 'on': [] }
+    Plug 'easymotion/vim-easymotion', { 'on': [] }
+    Plug 'editorconfig/editorconfig-vim', { 'on': [] }
+    Plug 'github/copilot.vim', { 'on': [] }
+    Plug 'itchyny/lightline.vim' | Plug 'mengelbrecht/lightline-bufferline'
+    Plug 'junegunn/fzf', { 'on': [] } | Plug 'junegunn/fzf.vim', { 'on': [] }
+    Plug 'kazuya-watanabe/note.vim', { 'on': [] }
+    Plug 'lambdalisue/vim-fern', { 'on': [] } | Plug 'lambdalisue/vim-fern-renderer-nerdfont', { 'on': [] } | Plug 'lambdalisue/vim-fern-git-status', { 'on': [] }
+    Plug 'lambdalisue/vim-nerdfont' | Plug 'lambdalisue/vim-glyph-palette', { 'on': [] }
+    Plug 'madox2/vim-ai', { 'on': [] }
+    Plug 'prabirshrestha/asyncomplete.vim' | Plug 'prabirshrestha/asyncomplete-lsp.vim'
+    Plug 'prabirshrestha/vim-lsp' | Plug 'mattn/vim-lsp-settings'
+    Plug 'tpope/vim-commentary', { 'on': [] }
+    Plug 'tpope/vim-fugitive', { 'on': [] }
+    Plug 'tpope/vim-repeat', { 'on': [] }
+    Plug 'tpope/vim-surround', { 'on': [] }
+    Plug 'vim-jp/vimdoc-ja', { 'on': [] }
+    Plug 'vim-skk/eskk.vim', { 'on': [] }
+
+    " asyncomplete.vim
+    let g:asyncomplete_auto_completeopt = 0
+
+    " eskk.vim
+    let g:eskk#directory = exists('$XDG_DATA_HOME')
+                \   ? expand('$XDG_DATA_HOME/skk')
+                \   : expand('$HOME/.local/share/skk')
+    let g:eskk#dictionary = {
+                \   'path': g:eskk#directory . '/SKK-JISYO.local',
+                \   'encoding': 'utf-8',
+                \   }
+    let g:eskk#large_dictionary = {
+                \   'path': g:eskk#directory . '/SKK-JISYO.L',
+                \   'sorted': 1,
+                \   'encoding': 'euc-jp',
+                \   }
+    let g:eskk#show_candidates_count = 1
+    let g:eskk#show_annotation = 1
+
+    " fzf
+    let g:fzf_action = {
+                \   'Ctrl-t': 'tab split',
+                \   'Ctrl-i': 'split',
+                \   'Ctrl-s': 'vsplit',
+                \   }
+    let g:fzf_layout = { 'window': { 'width': 0.9, 'height': 0.8 } }
+    let g:fzf_vim = { 'command_prefix': 'Fzf' }
+
+    command! -complete=file -bang -nargs=* Grep call fzf#vim#grep('rg --follow --hidden --smart-case --with-filename --column --line-number --no-heading --color=always -- ' . <q-args>, fzf#vim#with_preview(), <bang>0)
+
+    nnoremap <silent> fb :<C-u>FzfBuffers<CR>
+    nnoremap <silent> ff :<C-u>FzfFiles<CR>
+    nnoremap <silent> fg :<C-u>FzfGFiles<CR>
+    nnoremap <silent> fh :<C-u>FzfHistory<CR>
+    nnoremap <silent> fl :<C-u>FzfBLines<CR>
+
+    " lightline.vim
+    function! s:LightlineBufferlineFilter(buffer)
+        return getbufvar(a:buffer, '&buftype') !=# 'terminal'
+                    \ && getbufvar(a:buffer, '&filetype') !=# 'fugitive'
+    endfunction
+
+    let g:lightline = {
+                \   'active': {
+                \       'left': [ [ 'mode', 'paste', 'skk' ], [ 'branch', 'readonly', 'filename', 'modified' ] ],
+                \       'right': [ [ 'lineinfo' ], [ 'percent' ], [ 'fileformat', 'fileencoding', 'filetype' ] ],
+                \       },
+                \   'colorscheme': 'PaperColor',
+                \   'component': { 'filename': '%{nerdfont#find()} %{expand("%")}' },
+                \   'component_expand': { 'buffers': 'lightline#bufferline#buffers' },
+                \   'component_function': { 'branch': 'FugitiveHead', 'skk': 'eskk#statusline' },
+                \   'component_type': { 'buffers': 'tabsel' },
+                \   'separator': { 'left': '', 'right': '' },
+                \   'subseparator': { 'left': '', 'right': '' },
+                \   'tabline': { 'left': [ [ 'buffers' ] ], 'right': [ [ 'close' ] ] },
+                \   }
+    let g:lightline#bufferline#buffer_filter = get(function('s:LightlineBufferlineFilter'), 'name')
+    let g:lightline#bufferline#enable_nerdfont = 1
+    let g:lightline#bufferline#margin_left = 1
+    let g:lightline#bufferline#show_number = 2
+    let g:lightline#bufferline#smart_path = 0
+    let g:lightline#bufferline#unicode_symbols = 1
+
+    nnoremap <M-0> <Plug>lightline#bufferline#go(10)
+    nnoremap <M-1> <Plug>lightline#bufferline#go(1)
+    nnoremap <M-2> <Plug>lightline#bufferline#go(2)
+    nnoremap <M-3> <Plug>lightline#bufferline#go(3)
+    nnoremap <M-4> <Plug>lightline#bufferline#go(4)
+    nnoremap <M-5> <Plug>lightline#bufferline#go(5)
+    nnoremap <M-6> <Plug>lightline#bufferline#go(6)
+    nnoremap <M-7> <Plug>lightline#bufferline#go(7)
+    nnoremap <M-8> <Plug>lightline#bufferline#go(8)
+    nnoremap <M-9> <Plug>lightline#bufferline#go(9)
+    nnoremap <M-h> <Plug>lightline#bufferline#go_previous()
+    nnoremap <M-l> <Plug>lightline#bufferline#go_next()
+    nnoremap <M-L> <Plug>lightline#bufferline#move_next()
+    nnoremap <M-H> <Plug>lightline#bufferline#move_previous()
+
+    " vim-ai
+    let g:vim_ai_chat_markdown = 1
+    let g:vim_ai_token_file_path = exists('$XDG_CONFIG_HOME')
+                \   ? expand('$XDG_CONFIG_HOME/openai.token')
+                \   : expand('$HOME/.config/openai.token')
+    let g:vim_ai_roles_config_file = exists('$MYVIMDIR')
+                \   ? expand('$MYVIMDIR/roles.ini')
+                \   : has('win32')
+                \       ? expand('$HOME/vimfiles/roles.ini')
+                \       : expand('$HOME/.vim/roles.ini')
+
+    autocmd vimrc FileType aichat setlocal wrap | noremap! <silent><buffer> <S-CR> <Esc>:<C-u>AIChat<CR>
+
+    " vim-fern
+    function! s:OpenFern() abort
+        if empty(&buftype) && bufname() != ''
+            Fern . -drawer -reveal=%
+        else
+            Fern . -drawer
+        endif
+    endfunction
+
+    let g:fern#default_exclude = '^\%(\.git\|\.svn\|\.hg\|node_modules\|vendor\|.*\.swp\)$'
+    let g:fern#default_hidden = 1
+    let g:fern#renderer = 'nerdfont'
+
+    autocmd vimrc FileType fern setlocal nonumber
+
+    nnoremap <silent> <leader>e :<C-u>call <SID>OpenFern()<CR>
+
+    " vim-lsp
+    let g:lsp_use_native_client = 1
+
+    nnoremap <C-k>      <plug>(lsp-signature-help)
+    nnoremap K          <plug>(lsp-hover)
+
+    nnoremap <leader>a  <plug>(lsp-code-action)
+    nnoremap <leader>l  <plug>(lsp-code-lens)
+    nnoremap <leader>r  <plug>(lsp-rename)
+    nnoremap <leader>f  <plug>(lsp-document-format)
+    xnoremap <leader>f  <plug>(lsp-document-range-format)
+
+    nnoremap g[         <plug>(lsp-previous-diagnostic)
+    nnoremap g]         <plug>(lsp-next-diagnostic)
+
+    nnoremap gd         <plug>(lsp-definition)
+    nnoremap gi         <plug>(lsp-implementation)
+    nnoremap gr         <plug>(lsp-references)
+    nnoremap gy         <plug>(lsp-type-definition)
+
+    nnoremap gs         <plug>(lsp-document-symbol)
+    nnoremap gw         <plug>(lsp-document-symbol-search)
+
+    " vim-plug end
+    call plug#end()
+
+    if len(filter(values(g:plugs), '!isdirectory(v:val.dir)'))
+        PlugInstall --sync
+    endif
+
+    function! s:LoadPlugs(timer)
+        call plug#load(keys(g:plugs))
+        call fern_git_status#init()
+    endfunction
+
+    call timer_start(200, function('s:LoadPlugs'))
+
+    " papercolor-theme
+    colorscheme PaperColor
+    highlight! link Terminal Normal
+endif
