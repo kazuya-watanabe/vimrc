@@ -31,11 +31,13 @@ set listchars=tab:>-,leadmultispace:\ \ \ \|,trail:_,extends:>,precedes:<,concea
 set nrformats-=octal
 set ruler
 set scrolloff=4
+set sessionoptions+=globals,localoptions
 set shiftwidth=4
 set shortmess+=c
 set showbreak=-->\ 
 set showcmd
 set showmatch
+set showtabline=2
 set sidescroll=1
 set sidescrolloff=8
 set signcolumn=yes
@@ -228,7 +230,7 @@ if plug#begin()
                 \       'right': [ [ 'lineinfo' ], [ 'percent' ], [ 'fileformat', 'fileencoding', 'filetype' ] ],
                 \       },
                 \   'colorscheme': 'PaperColor',
-                \   'component': { 'filename': '%{nerdfont#find()} %t' },
+                \   'component': { 'filename': '%{nerdfont#find()} %{expand("%")}' },
                 \   'component_expand': { 'buffers': 'lightline#bufferline#buffers' },
                 \   'component_function': { 'branch': 'FugitiveHead', 'skk': 'eskk#statusline' },
                 \   'component_type': { 'buffers': 'tabsel' },
@@ -238,12 +240,11 @@ if plug#begin()
                 \   }
     let g:lightline#bufferline#enable_nerdfont = 1
     let g:lightline#bufferline#margin_left = 1
+    let g:lightline#bufferline#smart_path = 0
     let g:lightline#bufferline#unicode_symbols = 1
 
     nnoremap <silent> t[ :<C-u>call lightline#bufferline#move_previous()<CR>
     nnoremap <silent> t] :<C-u>call lightline#bufferline#move_next()<CR>
-
-    set showtabline=2
 
     " vim-ai
     let g:vim_ai_chat_markdown = 1
@@ -256,7 +257,7 @@ if plug#begin()
                 \       ? expand('$HOME/vimfiles/roles.ini')
                 \       : expand('$HOME/.vim/roles.ini')
 
-    autocmd vimrc FileType aichat noremap! <silent><buffer> <S-CR> <Esc>:<C-u>AIChat<CR>
+    autocmd vimrc FileType aichat setlocal wrap | noremap! <silent><buffer> <S-CR> <Esc>:<C-u>AIChat<CR>
 
     " vim-fern
     let g:fern#default_exclude = '^\%(\.git\|\.svn\|\.hg\|node_modules\|vendor\)$'
