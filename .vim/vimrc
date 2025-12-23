@@ -82,7 +82,7 @@ endif
 " autocmds
 augroup vimrc
     autocmd!
-    autocmd BufNewFile,BufRead *.bat,*.cmd,*.ps1,*.reg setlocal fileformat=dos fileencoding=default completeslash=backslash
+    autocmd BufNewFile,BufRead *.bat,*.cmd,*.ps1,*.reg setlocal fileformat=dos fileencoding=default
     autocmd FileType help,qf,aichat,fern,fugitive nnoremap <buffer> q <Esc>:close<CR>
 augroup END
 
