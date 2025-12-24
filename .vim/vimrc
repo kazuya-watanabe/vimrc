@@ -60,10 +60,6 @@ set wildoptions=pum
 set nowrap
 set nowritebackup
 
-if has('win32')
-    set completeslash=slash
-endif
-
 if has('gui_running')
     set background=light
     set guioptions+=chk guioptions-=T guioptions-=e guioptions-=m
@@ -115,7 +111,11 @@ nnoremap <silent> td :<C-u>bdelete<CR>
 nnoremap <silent> tn :<C-u>bnext<CR>
 nnoremap <silent> tp :<C-u>bprevious<CR>
 
-nnoremap <silent> <Leader>sh :<C-u>vertical terminal ++close<CR>
+if has('win32')
+    nnoremap <silent> <Leader>sh :<C-u>vertical terminal ++close powershell.exe -NoLogo<CR>
+else
+    nnoremap <silent> <Leader>sh :<C-u>vertical terminal ++close<CR>
+endif
 
 if executable('zenhan.exe')
     inoremap <silent> <Esc> <Esc>:<C-u>silent call system('zenhan.exe 0')<CR>
@@ -165,7 +165,7 @@ if plug#begin()
     Plug 'junegunn/fzf', { 'on': [] } | Plug 'junegunn/fzf.vim', { 'on': [] }
     Plug 'junegunn/gv.vim', { 'on': [] }
     Plug 'kazuya-watanabe/note.vim', { 'on': [] }
-    Plug 'lambdalisue/vim-fern', { 'on': [] } | Plug 'lambdalisue/vim-fern-renderer-nerdfont', { 'on': [] } | Plug 'LumaKernel/fern-mapping-fzf.vim', { 'on': [] } | Plug 'yuki-yano/fern-preview.vim', { 'on': [] }
+    Plug 'lambdalisue/vim-fern', { 'on': [] } | Plug 'lambdalisue/vim-fern-renderer-nerdfont', { 'on': [] }
     Plug 'lambdalisue/vim-nerdfont' | Plug 'lambdalisue/vim-glyph-palette', { 'on': [] }
     Plug 'madox2/vim-ai', { 'on': [] }
     Plug 'prabirshrestha/asyncomplete.vim' | Plug 'prabirshrestha/asyncomplete-lsp.vim'
@@ -224,6 +224,10 @@ if plug#begin()
     nnoremap <silent> <Leader>g :<C-u>FzfGFiles<CR>
 
     " lightline.vim
+    function LightlineBufferlineFilter(buffer)
+        return getbufvar(a:buffer, '&buftype') !=# 'terminal'
+    endfunction
+
     let g:lightline = {
                 \   'active': {
                 \       'left': [ [ 'mode', 'paste' ], [ 'branch', 'readonly', 'filename', 'modified' ], [ 'skk' ] ],
@@ -242,6 +246,7 @@ if plug#begin()
     let g:lightline#bufferline#margin_left = 1
     let g:lightline#bufferline#smart_path = 0
     let g:lightline#bufferline#unicode_symbols = 1
+    let g:lightline#bufferline#buffer_filter = "LightlineBufferlineFilter"
 
     nnoremap <silent> t[ :<C-u>call lightline#bufferline#move_previous()<CR>
     nnoremap <silent> t] :<C-u>call lightline#bufferline#move_next()<CR>
@@ -263,9 +268,8 @@ if plug#begin()
     let g:fern#default_exclude = '^\%(\.git\|\.svn\|\.hg\|node_modules\|vendor\)$'
     let g:fern#default_hidden = 1
     let g:fern#renderer = 'nerdfont'
-    let g:fern#scheme#file#mapping#mappings = []
 
-    function s:Fern() abort
+    function s:OpenFern() abort
         if empty(&buftype) && bufname('%') != ''
             Fern . -reveal=%
         else
@@ -273,16 +277,7 @@ if plug#begin()
         endif
     endfunction
 
-    nnoremap <silent> <Leader>e :<C-u>call <SID>Fern()<CR>
-
-    function! s:InitFernPreview() abort
-        nmap <silent> <buffer> p     <Plug>(fern-action-preview:toggle)
-        nmap <silent> <buffer> <C-p> <Plug>(fern-action-preview:auto:toggle)
-        nmap <silent> <buffer> <C-d> <Plug>(fern-action-preview:scroll:down:half)
-        nmap <silent> <buffer> <C-u> <Plug>(fern-action-preview:scroll:up:half)
-    endfunction
-
-    autocmd vimrc FileType fern call glyph_palette#apply() | call s:InitFernPreview()
+    nnoremap <silent> <Leader>e :<C-u>call <SID>OpenFern()<CR>
 
     " vim-lsp
     let g:lsp_use_native_client = 1
