@@ -29,6 +29,7 @@ set lazyredraw
 set list
 set listchars=tab:>-,leadmultispace:\ \ \ \|,trail:_,extends:>,precedes:<,conceal:*,nbsp:_
 set nrformats-=octal
+set number
 set ruler
 set scrolloff=4
 set sessionoptions+=globals,localoptions
@@ -157,13 +158,11 @@ endif
 if plug#begin()
     Plug 'NLKNguyen/papercolor-theme'
     Plug 'airblade/vim-gitgutter', { 'on': [] }
-    Plug 'dhruvasagar/vim-table-mode', { 'on': [] }
     Plug 'easymotion/vim-easymotion', { 'on': [] }
     Plug 'editorconfig/editorconfig-vim', { 'on': [] }
     Plug 'github/copilot.vim', { 'on': [] }
     Plug 'itchyny/lightline.vim' | Plug 'mengelbrecht/lightline-bufferline'
     Plug 'junegunn/fzf', { 'on': [] } | Plug 'junegunn/fzf.vim', { 'on': [] }
-    Plug 'junegunn/gv.vim', { 'on': [] }
     Plug 'kazuya-watanabe/note.vim', { 'on': [] }
     Plug 'lambdalisue/vim-fern', { 'on': [] } | Plug 'lambdalisue/vim-fern-renderer-nerdfont', { 'on': [] }
     Plug 'lambdalisue/vim-nerdfont' | Plug 'lambdalisue/vim-glyph-palette', { 'on': [] }
@@ -208,16 +207,10 @@ if plug#begin()
     let g:fzf_action = {
                 \   'Ctrl-t': 'tab split',
                 \   'Ctrl-i': 'split',
-                \   'Ctrl-s': 'vsplit'
+                \   'Ctrl-s': 'vsplit',
                 \   }
-    let g:fzf_layout = {
-                \   'window': { 'width': 0.9, 'height': 0.8 },
-                \   }
-    let g:fzf_vim = {
-                \   'command_prefix': 'Fzf',
-                \   'listproc': { list -> fzf#vim#listproc#quickfix(list) },
-                \   'listproc_rg': { list -> fzf#vim#listproc#location(list) },
-                \   }
+    let g:fzf_layout = { 'window': { 'width': 0.9, 'height': 0.8 } }
+    let g:fzf_vim = { 'command_prefix': 'Fzf' }
 
     nnoremap <silent> <Leader>b :<C-u>FzfBuffers<CR>
     nnoremap <silent> <Leader>f :<C-u>FzfFiles<CR>
@@ -230,7 +223,7 @@ if plug#begin()
 
     let g:lightline = {
                 \   'active': {
-                \       'left': [ [ 'mode', 'paste' ], [ 'branch', 'readonly', 'filename', 'modified' ], [ 'skk' ] ],
+                \       'left': [ [ 'mode', 'paste', 'skk' ], [ 'branch', 'readonly', 'filename', 'modified' ] ],
                 \       'right': [ [ 'lineinfo' ], [ 'percent' ], [ 'fileformat', 'fileencoding', 'filetype' ] ],
                 \       },
                 \   'colorscheme': 'PaperColor',
@@ -308,13 +301,7 @@ if plug#begin()
     call plug#end()
 
     if len(filter(values(g:plugs), '!isdirectory(v:val.dir)'))
-        echomsg 'Please wait for a while to complete the installation.'
-
         PlugInstall --sync
-
-        echohl WarningMsg | echomsg 'Installation completed. Please restart Vim.' | echohl None
-
-        finish
     endif
 
     function! s:LoadPlugs(timer)
