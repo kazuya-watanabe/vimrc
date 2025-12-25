@@ -31,7 +31,7 @@ set listchars=tab:>-,leadmultispace:\ \ \ \|,trail:_,extends:>,precedes:<,concea
 set nrformats-=octal
 set number
 set ruler
-set scrolloff=4
+set scrolloff=10
 set sessionoptions+=globals,localoptions
 set shiftwidth=4
 set shortmess+=c
@@ -40,7 +40,7 @@ set showcmd
 set showmatch
 set showtabline=2
 set sidescroll=1
-set sidescrolloff=8
+set sidescrolloff=20
 set signcolumn=yes
 set smartcase
 set smartindent
@@ -106,13 +106,9 @@ noremap! <C-p> <Up>
 
 nnoremap <silent> <Esc><Esc> :<C-u>nohlsearch<CR>
 
-nnoremap <silent> t$ :<C-u>blast<CR>
-nnoremap <silent> t0 :<C-u>brewind<CR>
-nnoremap <silent> td :<C-u>bdelete<CR>
-nnoremap <silent> tn :<C-u>bnext<CR>
-nnoremap <silent> tp :<C-u>bprevious<CR>
-
 if has('win32')
+    set completeslash=slash
+
     nnoremap <silent> <Leader>sh :<C-u>vertical terminal ++close powershell.exe -NoLogo<CR>
 else
     nnoremap <silent> <Leader>sh :<C-u>vertical terminal ++close<CR>
@@ -241,8 +237,8 @@ if plug#begin()
     let g:lightline#bufferline#unicode_symbols = 1
     let g:lightline#bufferline#buffer_filter = "LightlineBufferlineFilter"
 
-    nnoremap <silent> t[ :<C-u>call lightline#bufferline#move_previous()<CR>
-    nnoremap <silent> t] :<C-u>call lightline#bufferline#move_next()<CR>
+    nnoremap <S-h> <Plug>lightline#bufferline#go_previous()
+    nnoremap <S-l> <Plug>lightline#bufferline#go_next()
 
     " vim-ai
     let g:vim_ai_chat_markdown = 1
@@ -262,11 +258,13 @@ if plug#begin()
     let g:fern#default_hidden = 1
     let g:fern#renderer = 'nerdfont'
 
+    autocmd FileType fern setlocal nonumber
+
     function s:OpenFern() abort
         if empty(&buftype) && bufname('%') != ''
-            Fern . -reveal=%
+            Fern . -drawer -reveal=%
         else
-            Fern .
+            Fern . -drawer
         endif
     endfunction
 
