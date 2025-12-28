@@ -51,7 +51,6 @@ set spelloptions=camel
 set splitbelow
 set splitright
 set statusline=%<%f\ %y%m%r%h%w%q%{'['.(&fileencoding!=''?&fileencoding:&encoding).']['.&fileformat.']'}%=%p%%\ [%l/%L\ %v]
-set noswapfile
 set tabstop=4
 set virtualedit=block
 set whichwrap+=<,>,~,[,]
@@ -211,6 +210,7 @@ if plug#begin()
     nnoremap <silent> <Leader>b :<C-u>FzfBuffers<CR>
     nnoremap <silent> <Leader>f :<C-u>FzfFiles<CR>
     nnoremap <silent> <Leader>g :<C-u>FzfGFiles<CR>
+    nnoremap <silent> <Leader>h :<C-u>FzfHistory<CR>
 
     " lightline.vim
     function LightlineBufferlineFilter(buffer)
