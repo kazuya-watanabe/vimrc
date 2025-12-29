@@ -62,7 +62,7 @@ set nowritebackup
 
 if has('gui_running')
     set background=light
-    set guioptions+=chk guioptions-=T guioptions-=e guioptions-=m
+    set guioptions+=cMhk guioptions-=e guioptions-=m guioptions-=T
 endif
 
 if has('termguicolors')
@@ -213,7 +213,7 @@ if plug#begin()
     nnoremap <silent> <Leader>h :<C-u>FzfHistory<CR>
 
     " lightline.vim
-    function LightlineBufferlineFilter(buffer)
+    function! LightlineBufferlineFilter(buffer)
         return getbufvar(a:buffer, '&buftype') !=# 'terminal'
     endfunction
 
@@ -254,13 +254,13 @@ if plug#begin()
     autocmd vimrc FileType aichat setlocal wrap | noremap! <silent><buffer> <S-CR> <Esc>:<C-u>AIChat<CR>
 
     " vim-fern
-    let g:fern#default_exclude = '^\%(\.git\|\.svn\|\.hg\|node_modules\|vendor\)$'
+    let g:fern#default_exclude = '^\%(\.git\|\.svn\|\.hg\|node_modules\|vendor\|.*\.swp\)$'
     let g:fern#default_hidden = 1
     let g:fern#renderer = 'nerdfont'
 
     autocmd FileType fern setlocal nonumber
 
-    function s:OpenFern() abort
+    function! s:OpenFern() abort
         if empty(&buftype) && bufname('%') != ''
             Fern . -drawer -reveal=%
         else
