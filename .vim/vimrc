@@ -214,7 +214,7 @@ if plug#begin()
 
     " lightline.vim
     function! LightlineBufferlineFilter(buffer)
-        return getbufvar(a:buffer, '&buftype') !=# 'terminal'
+        return getbufvar(a:buffer, '&buftype') !=# 'terminal' && getbufvar(a:buffer, '&filetype') !=# 'fugitive'
     endfunction
 
     let g:lightline = {
