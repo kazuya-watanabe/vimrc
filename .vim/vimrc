@@ -214,7 +214,8 @@ if plug#begin()
 
     " lightline.vim
     function! LightlineBufferlineFilter(buffer)
-        return getbufvar(a:buffer, '&buftype') !=# 'terminal' && getbufvar(a:buffer, '&filetype') !=# 'fugitive'
+        return getbufvar(a:buffer, '&buftype') !=# 'terminal'
+                    \ && getbufvar(a:buffer, '&filetype') !=# 'fugitive'
     endfunction
 
     let g:lightline = {
@@ -231,12 +232,23 @@ if plug#begin()
                 \   'subseparator': { 'left': '', 'right': '' },
                 \   'tabline': { 'left': [ [ 'buffers' ] ], 'right': [ [ 'close' ] ] },
                 \   }
+    let g:lightline#bufferline#buffer_filter = "LightlineBufferlineFilter"
     let g:lightline#bufferline#enable_nerdfont = 1
     let g:lightline#bufferline#margin_left = 1
+    let g:lightline#bufferline#show_number = 1
     let g:lightline#bufferline#smart_path = 0
     let g:lightline#bufferline#unicode_symbols = 1
-    let g:lightline#bufferline#buffer_filter = "LightlineBufferlineFilter"
 
+    nnoremap <M-0> <Plug>lightline#bufferline#go(10)
+    nnoremap <M-1> <Plug>lightline#bufferline#go(1)
+    nnoremap <M-2> <Plug>lightline#bufferline#go(2)
+    nnoremap <M-3> <Plug>lightline#bufferline#go(3)
+    nnoremap <M-4> <Plug>lightline#bufferline#go(4)
+    nnoremap <M-5> <Plug>lightline#bufferline#go(5)
+    nnoremap <M-6> <Plug>lightline#bufferline#go(6)
+    nnoremap <M-7> <Plug>lightline#bufferline#go(7)
+    nnoremap <M-8> <Plug>lightline#bufferline#go(8)
+    nnoremap <M-9> <Plug>lightline#bufferline#go(9)
     nnoremap <S-h> <Plug>lightline#bufferline#go_previous()
     nnoremap <S-l> <Plug>lightline#bufferline#go_next()
 
