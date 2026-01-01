@@ -271,7 +271,7 @@ if plug#begin()
     let g:fern#default_hidden = 1
     let g:fern#renderer = 'nerdfont'
 
-    autocmd FileType fern setlocal nonumber
+    autocmd vimrc FileType fern setlocal nonumber
 
     function! s:OpenFern() abort
         if empty(&buftype) && bufname() != ''
