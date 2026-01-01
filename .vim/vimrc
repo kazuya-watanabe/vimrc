@@ -107,10 +107,9 @@ nnoremap <silent> <Esc><Esc> :<C-u>nohlsearch<CR>
 
 if has('win32')
     set completeslash=slash
-
-    nnoremap <silent> <Leader>sh :<C-u>vertical terminal ++close powershell.exe -NoLogo<CR>
+    nnoremap <silent> <leader>sh :<C-u>vertical terminal ++close powershell.exe -NoLogo<CR>
 else
-    nnoremap <silent> <Leader>sh :<C-u>vertical terminal ++close<CR>
+    nnoremap <silent> <leader>sh :<C-u>vertical terminal ++close<CR>
 endif
 
 if executable('zenhan.exe')
@@ -177,7 +176,7 @@ if plug#begin()
     " copilot.vim
     let g:copilot_no_tab_map = v:true
 
-    imap <silent><script><expr> <M-i> copilot#Accept("\<CR>")
+    imap <silent><script><expr> <M-f> copilot#Accept("\<CR>")
     imap <M-n> <Plug>(copilot-next)
     imap <M-p> <Plug>(copilot-previous)
 
@@ -187,7 +186,6 @@ if plug#begin()
                 \   : expand('$HOME/.local/share/skk')
     let g:eskk#dictionary = {
                 \   'path': g:eskk#directory .. '/SKK-JISYO.local',
-                \   'sorted': 1,
                 \   'encoding': 'utf-8',
                 \   }
     let g:eskk#large_dictionary = {
@@ -207,13 +205,13 @@ if plug#begin()
     let g:fzf_layout = { 'window': { 'width': 0.9, 'height': 0.8 } }
     let g:fzf_vim = { 'command_prefix': 'Fzf' }
 
-    nnoremap <silent> <Leader>b :<C-u>FzfBuffers<CR>
-    nnoremap <silent> <Leader>f :<C-u>FzfFiles<CR>
-    nnoremap <silent> <Leader>g :<C-u>FzfGFiles<CR>
-    nnoremap <silent> <Leader>h :<C-u>FzfHistory<CR>
+    nnoremap <silent> <leader>b :<C-u>FzfBuffers<CR>
+    nnoremap <silent> <leader>f :<C-u>FzfFiles<CR>
+    nnoremap <silent> <leader>g :<C-u>FzfGFiles<CR>
+    nnoremap <silent> <leader>h :<C-u>FzfHistory<CR>
 
     " lightline.vim
-    function! LightlineBufferlineFilter(buffer)
+    function! s:LightlineBufferlineFilter(buffer)
         return getbufvar(a:buffer, '&buftype') !=# 'terminal'
                     \ && getbufvar(a:buffer, '&filetype') !=# 'fugitive'
     endfunction
@@ -232,25 +230,28 @@ if plug#begin()
                 \   'subseparator': { 'left': '', 'right': '' },
                 \   'tabline': { 'left': [ [ 'buffers' ] ], 'right': [ [ 'close' ] ] },
                 \   }
-    let g:lightline#bufferline#buffer_filter = "LightlineBufferlineFilter"
+    let g:lightline#bufferline#buffer_filter = function('s:LightlineBufferlineFilter')
     let g:lightline#bufferline#enable_nerdfont = 1
     let g:lightline#bufferline#margin_left = 1
-    let g:lightline#bufferline#show_number = 1
+    let g:lightline#bufferline#show_number = 2
     let g:lightline#bufferline#smart_path = 0
     let g:lightline#bufferline#unicode_symbols = 1
 
-    nnoremap <M-0> <Plug>lightline#bufferline#go(10)
-    nnoremap <M-1> <Plug>lightline#bufferline#go(1)
-    nnoremap <M-2> <Plug>lightline#bufferline#go(2)
-    nnoremap <M-3> <Plug>lightline#bufferline#go(3)
-    nnoremap <M-4> <Plug>lightline#bufferline#go(4)
-    nnoremap <M-5> <Plug>lightline#bufferline#go(5)
-    nnoremap <M-6> <Plug>lightline#bufferline#go(6)
-    nnoremap <M-7> <Plug>lightline#bufferline#go(7)
-    nnoremap <M-8> <Plug>lightline#bufferline#go(8)
-    nnoremap <M-9> <Plug>lightline#bufferline#go(9)
-    nnoremap <S-h> <Plug>lightline#bufferline#go_previous()
-    nnoremap <S-l> <Plug>lightline#bufferline#go_next()
+    nmap <M-0> <Plug>lightline#bufferline#go(10)
+    nmap <M-1> <Plug>lightline#bufferline#go(1)
+    nmap <M-2> <Plug>lightline#bufferline#go(2)
+    nmap <M-3> <Plug>lightline#bufferline#go(3)
+    nmap <M-4> <Plug>lightline#bufferline#go(4)
+    nmap <M-5> <Plug>lightline#bufferline#go(5)
+    nmap <M-6> <Plug>lightline#bufferline#go(6)
+    nmap <M-7> <Plug>lightline#bufferline#go(7)
+    nmap <M-8> <Plug>lightline#bufferline#go(8)
+    nmap <M-9> <Plug>lightline#bufferline#go(9)
+    nmap <M-h> <Plug>lightline#bufferline#go_previous()
+    nmap <M-l> <Plug>lightline#bufferline#go_next()
+    nmap <M-S-l> <Plug>lightline#bufferline#move_next()
+    nmap <M-S-h> <Plug>lightline#bufferline#move_previous()
+    nmap <M-S-r> <Plug>lightline#bufferline#reset_order()
 
     " vim-ai
     let g:vim_ai_chat_markdown = 1
@@ -273,28 +274,25 @@ if plug#begin()
     autocmd FileType fern setlocal nonumber
 
     function! s:OpenFern() abort
-        if empty(&buftype) && bufname('%') != ''
+        if empty(&buftype) && bufname() != ''
             Fern . -drawer -reveal=%
         else
             Fern . -drawer
         endif
     endfunction
 
-    nnoremap <silent> <Leader>e :<C-u>call <SID>OpenFern()<CR>
+    nnoremap <silent> <leader>e :<C-u>call <SID>OpenFern()<CR>
 
     " vim-lsp
     let g:lsp_use_native_client = 1
 
-    nmap <Leader>ca <plug>(lsp-code-action)
-    nmap <Leader>cl <plug>(lsp-code-lens)
+    nmap <leader>ca <plug>(lsp-code-action)
+    nmap <leader>cl <plug>(lsp-code-lens)
     nmap gd         <plug>(lsp-definition)
-    nmap gs         <plug>(lsp-workspace-symbol-search)
     nmap gr         <plug>(lsp-references)
-    nmap gi         <plug>(lsp-implementation)
-    nmap gt         <plug>(lsp-type-definition)
-    nmap [g         <plug>(lsp-previous-diagnostic)
-    nmap ]g         <plug>(lsp-next-diagnostic)
-    nmap <Leader>rn <plug>(lsp-rename)
+    nmap g[         <plug>(lsp-previous-diagnostic)
+    nmap g]         <plug>(lsp-next-diagnostic)
+    nmap <leader>rn <plug>(lsp-rename)
     nmap K          <plug>(lsp-hover)
 
     function! s:FormatHandler(line1, line2) abort
@@ -318,7 +316,7 @@ if plug#begin()
         call plug#load(keys(g:plugs))
     endfunction
 
-    call timer_start(500, function('s:LoadPlugs'))
+    call timer_start(200, function('s:LoadPlugs'))
 
     " papercolor-theme
     colorscheme PaperColor
