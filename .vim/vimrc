@@ -1,3 +1,8 @@
+if version < 900
+    echoerr 'This vimrc requires Vim 9.0 or higher.'
+    finish
+endif
+
 " options
 set autoindent
 set autoread
@@ -104,9 +109,9 @@ nnoremap <silent> <Esc><Esc> :<C-u>nohlsearch<CR>
 
 if has('win32')
     set completeslash=slash
-    nnoremap <silent> <leader>sh :<C-u>vertical terminal ++close powershell.exe -NoLogo<CR>
+    nnoremap <silent> <leader>sh :<C-u>terminal ++close ++rows=10 powershell.exe -NoLogo<CR>
 else
-    nnoremap <silent> <leader>sh :<C-u>vertical terminal ++close<CR>
+    nnoremap <silent> <leader>sh :<C-u>terminal ++close ++rows=10<CR>
 endif
 
 if executable('zenhan.exe')
@@ -151,15 +156,13 @@ if plug#begin()
     Plug 'airblade/vim-gitgutter', { 'on': [] }
     Plug 'easymotion/vim-easymotion', { 'on': [] }
     Plug 'editorconfig/editorconfig-vim', { 'on': [] }
-    Plug 'github/copilot.vim', { 'on': [] }
-    Plug 'itchyny/lightline.vim' | Plug 'mengelbrecht/lightline-bufferline'
+    if executable('node') | Plug 'github/copilot.vim', { 'on': [] } | endif
+    Plug 'itchyny/lightline.vim' | Plug 'mengelbrecht/lightline-bufferline', { 'on': [] }
     Plug 'junegunn/fzf', { 'on': [] } | Plug 'junegunn/fzf.vim', { 'on': [] }
     Plug 'kazuya-watanabe/note.vim', { 'on': [] }
-    Plug 'lambdalisue/vim-fern', { 'on': [] } | Plug 'lambdalisue/vim-fern-renderer-nerdfont', { 'on': [] } | Plug 'lambdalisue/vim-fern-git-status', { 'on': [] }
-    Plug 'lambdalisue/vim-nerdfont' | Plug 'lambdalisue/vim-glyph-palette', { 'on': [] }
-    Plug 'madox2/vim-ai', { 'on': [] }
-    Plug 'prabirshrestha/asyncomplete.vim' | Plug 'prabirshrestha/asyncomplete-lsp.vim'
-    Plug 'prabirshrestha/vim-lsp' | Plug 'mattn/vim-lsp-settings'
+    Plug 'lambdalisue/vim-fern', { 'on': [] } | Plug 'lambdalisue/vim-fern-git-status', { 'on': [] } | Plug 'lambdalisue/vim-nerdfont' | Plug 'lambdalisue/vim-glyph-palette', { 'on': [] } | Plug 'lambdalisue/vim-fern-renderer-nerdfont', { 'on': [] }
+    if has('python3') | Plug 'madox2/vim-ai', { 'on': [] } | endif
+    Plug 'prabirshrestha/vim-lsp' | Plug 'mattn/vim-lsp-settings', { 'on': [] } | Plug 'prabirshrestha/asyncomplete.vim', { 'on': [] } | Plug 'prabirshrestha/asyncomplete-lsp.vim', { 'on': [] }
     Plug 'tpope/vim-commentary', { 'on': [] }
     Plug 'tpope/vim-fugitive', { 'on': [] }
     Plug 'tpope/vim-repeat', { 'on': [] }
@@ -205,8 +208,7 @@ if plug#begin()
 
     " lightline.vim
     function! s:LightlineBufferlineFilter(buffer)
-        return getbufvar(a:buffer, '&buftype') !=# 'terminal'
-                    \ && getbufvar(a:buffer, '&filetype') !=# 'fugitive'
+        return getbufvar(a:buffer, '&buftype') !=# 'terminal' && getbufvar(a:buffer, '&filetype') !=# 'fugitive'
     endfunction
 
     let g:lightline = {
