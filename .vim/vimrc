@@ -163,6 +163,7 @@ if plug#begin()
     Plug 'lambdalisue/vim-fern', { 'on': [] } | Plug 'lambdalisue/vim-fern-git-status', { 'on': [] } | Plug 'lambdalisue/vim-nerdfont' | Plug 'lambdalisue/vim-glyph-palette', { 'on': [] } | Plug 'lambdalisue/vim-fern-renderer-nerdfont', { 'on': [] }
     if has('python3') | Plug 'madox2/vim-ai', { 'on': [] } | endif
     Plug 'prabirshrestha/vim-lsp' | Plug 'mattn/vim-lsp-settings', { 'on': [] } | Plug 'prabirshrestha/asyncomplete.vim', { 'on': [] } | Plug 'prabirshrestha/asyncomplete-lsp.vim', { 'on': [] }
+    Plug 'puremourning/vimspector', { 'on': [] }
     Plug 'tpope/vim-commentary', { 'on': [] }
     Plug 'tpope/vim-fugitive', { 'on': [] }
     Plug 'tpope/vim-repeat', { 'on': [] }
@@ -299,6 +300,9 @@ if plug#begin()
 
     nnoremap gs         <plug>(lsp-document-symbol)
     nnoremap gw         <plug>(lsp-document-symbol-search)
+
+    " vimsector
+    let g:vimspector_enable_mappings = 'HUMAN'
 
     " vim-plug end
     call plug#end()
