@@ -1,8 +1,8 @@
 if has('win32')
     set guifont=Hack_Nerd_Font_Mono:h12,Consolas:h12
-    set guifontwide=MS_Gothic:h12
+    set guifontwide=MS_Gothic:h13
     set linespace=0
-    set renderoptions=type:directx
+    set renderoptions=type:directx,renmode:6
 
     augroup gvimrc
         autocmd!
