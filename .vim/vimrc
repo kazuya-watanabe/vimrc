@@ -81,7 +81,7 @@ endif
 augroup vimrc
     autocmd!
     autocmd BufNewFile,BufRead *.bat,*.cmd,*.ps1,*.reg setlocal fileformat=dos fileencoding=default
-    autocmd FileType help,qf,aichat,fern,fugitive nnoremap <buffer> q <Esc>:close<CR>
+    autocmd FileType help,qf,aichat,fern,fugitive nnoremap <buffer> q <Cmd>close<CR>
 augroup END
 
 " commands
@@ -105,19 +105,19 @@ noremap! <C-f> <Right>
 noremap! <C-n> <Down>
 noremap! <C-p> <Up>
 
-nnoremap <silent> <Esc><Esc> :<C-u>nohlsearch<CR>
+nnoremap <silent> <Esc><Esc> <Cmd>nohlsearch<CR>
 
 if has('win32')
     set completeslash=slash
-    nnoremap <silent> <leader>sh :<C-u>terminal ++close ++rows=10 powershell.exe -NoLogo<CR>
+    nnoremap <silent> <leader>sh <Cmd>terminal ++close ++rows=10 powershell.exe -NoLogo<CR><Cmd>setlocal winfixheight<CR>
 else
-    nnoremap <silent> <leader>sh :<C-u>terminal ++close ++rows=10<CR>
+    nnoremap <silent> <leader>sh <Cmd>terminal ++close ++rows=10<CR><Cmd>setlocal winfixheight<CR>
 endif
 
 if executable('zenhan.exe')
-    inoremap <silent> <Esc> <Esc>:<C-u>silent call system('zenhan.exe 0')<CR>
+    inoremap <silent> <Esc> <Cmd>silent call system('zenhan.exe 0')<CR><Esc>
 elseif executable('im-select')
-    inoremap <silent> <Esc> <Esc>:<C-u>silent call system('im-select com.apple.keylayout.ABC')<CR>
+    inoremap <silent> <Esc> <Cmd>silent call system('im-select com.apple.keylayout.ABC')<CR><Esc>
 endif
 
 " plugins
@@ -201,11 +201,11 @@ if plug#begin()
 
     command! -complete=file -bang -nargs=* Grep call fzf#vim#grep('rg --follow --hidden --smart-case --with-filename --column --line-number --no-heading --color=always -- ' . <q-args>, fzf#vim#with_preview(), <bang>0)
 
-    nnoremap <silent> fb :<C-u>FzfBuffers<CR>
-    nnoremap <silent> ff :<C-u>FzfFiles<CR>
-    nnoremap <silent> fg :<C-u>FzfGFiles<CR>
-    nnoremap <silent> fh :<C-u>FzfHistory<CR>
-    nnoremap <silent> fl :<C-u>FzfBLines<CR>
+    nnoremap <silent> fb <Cmd>FzfBuffers<CR>
+    nnoremap <silent> ff <Cmd>FzfFiles<CR>
+    nnoremap <silent> fg <Cmd>FzfGFiles<CR>
+    nnoremap <silent> fh <Cmd>FzfHistory<CR>
+    nnoremap <silent> fl <Cmd>FzfBLines<CR>
 
     " lightline.vim
     function! s:LightlineBufferlineFilter(buffer)
@@ -276,7 +276,7 @@ if plug#begin()
 
     autocmd vimrc FileType fern setlocal nonumber
 
-    nnoremap <silent> <leader>e :<C-u>call <SID>OpenFern()<CR>
+    nnoremap <silent> <leader>e <Cmd>call <SID>OpenFern()<CR>
 
     " vim-lsp
     let g:lsp_use_native_client = 1
