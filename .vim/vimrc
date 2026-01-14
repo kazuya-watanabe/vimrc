@@ -123,10 +123,15 @@ endif
 " plugins
 let g:loaded_getscriptPlugin = 1
 let g:loaded_logiPat = 1
-let g:loaded_manpager_plugin = 1
 let g:loaded_netrw = 1 | let g:loaded_netrwPlugin = 1
 let g:loaded_tutor_mode_plugin = 1
 let g:loaded_vimballPlugin = 1 | let g:loaded_vimball = 1
+
+packadd! matchit
+packadd! editorconfig
+packadd comment
+packadd nohlsearch
+packadd hlyank
 
 let s:vimplug_path = exists('$MYVIMDIR')
             \   ? expand('$MYVIMDIR/autoload/plug.vim')
@@ -155,40 +160,26 @@ if plug#begin()
     Plug 'NLKNguyen/papercolor-theme'
     Plug 'airblade/vim-gitgutter', { 'on': [] }
     Plug 'easymotion/vim-easymotion', { 'on': [] }
-    Plug 'editorconfig/editorconfig-vim', { 'on': [] }
-    if executable('node') | Plug 'github/copilot.vim', { 'on': [] } | endif
     Plug 'itchyny/lightline.vim' | Plug 'mengelbrecht/lightline-bufferline', { 'on': [] }
     Plug 'junegunn/fzf', { 'on': [] } | Plug 'junegunn/fzf.vim', { 'on': [] }
     Plug 'kazuya-watanabe/note.vim', { 'on': [] }
     Plug 'lambdalisue/vim-fern', { 'on': [] } | Plug 'lambdalisue/vim-fern-git-status', { 'on': [] } | Plug 'lambdalisue/vim-nerdfont' | Plug 'lambdalisue/vim-glyph-palette', { 'on': [] } | Plug 'lambdalisue/vim-fern-renderer-nerdfont', { 'on': [] }
-    if has('python3') | Plug 'madox2/vim-ai', { 'on': [] } | endif
     Plug 'prabirshrestha/vim-lsp' | Plug 'mattn/vim-lsp-settings', { 'on': [] } | Plug 'prabirshrestha/asyncomplete.vim', { 'on': [] } | Plug 'prabirshrestha/asyncomplete-lsp.vim', { 'on': [] }
-    Plug 'puremourning/vimspector', { 'on': [] }
-    Plug 'tpope/vim-commentary', { 'on': [] }
     Plug 'tpope/vim-fugitive', { 'on': [] }
     Plug 'tpope/vim-repeat', { 'on': [] }
     Plug 'tpope/vim-surround', { 'on': [] }
-    Plug 'vim-jp/vimdoc-ja', { 'on': [] }
-    Plug 'vim-skk/eskk.vim', { 'on': [] }
+
+    if executable('node')
+        Plug 'github/copilot.vim', { 'on': [] }
+    endif
+
+    if has('python3')
+        Plug 'madox2/vim-ai', { 'on': [] }
+        Plug 'puremourning/vimspector', { 'on': [] }
+    endif
 
     " asyncomplete.vim
     let g:asyncomplete_auto_completeopt = 0
-
-    " eskk.vim
-    let g:eskk#directory = exists('$XDG_DATA_HOME')
-                \   ? expand('$XDG_DATA_HOME/skk')
-                \   : expand('$HOME/.local/share/skk')
-    let g:eskk#dictionary = {
-                \   'path': g:eskk#directory . '/SKK-JISYO.local',
-                \   'encoding': 'utf-8',
-                \   }
-    let g:eskk#large_dictionary = {
-                \   'path': g:eskk#directory . '/SKK-JISYO.L',
-                \   'sorted': 1,
-                \   'encoding': 'euc-jp',
-                \   }
-    let g:eskk#show_candidates_count = 1
-    let g:eskk#show_annotation = 1
 
     " fzf
     let g:fzf_action = {
