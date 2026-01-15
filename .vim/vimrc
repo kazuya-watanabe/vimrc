@@ -115,9 +115,9 @@ else
 endif
 
 if executable('zenhan.exe')
-    inoremap <silent> <Esc> <Cmd>silent call system('zenhan.exe 0')<CR><Esc>
+    inoremap <silent> <Esc> <Cmd>silent call job_start(['zenhan.exe', '0'])<CR><Esc>
 elseif executable('im-select')
-    inoremap <silent> <Esc> <Cmd>silent call system('im-select com.apple.keylayout.ABC')<CR><Esc>
+    inoremap <silent> <Esc> <Cmd>silent call job_start(['im-select', 'com.apple.keylayout.ABC'])<CR><Esc>
 endif
 
 " plugins
