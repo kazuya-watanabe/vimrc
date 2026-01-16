@@ -1,11 +1,19 @@
 if has('win32')
+    set columns=120
     set guifont=Hack_Nerd_Font_Mono:h12,Consolas:h12
     set guifontwide=MS_Gothic:h13
+    set lines=40
     set linespace=0
-    set renderoptions=type:directx,renmode:6
 
-    augroup gvimrc
-        autocmd!
-        autocmd GUIEnter * simalt ~x
-    augroup END
+    function! s:ToggleMaxmize() abort
+        if exists('g:gvim_maximized')
+            simalt ~r
+            unlet g:gvim_maximized
+        else
+            simalt ~x
+            let g:gvim_maximized = 1
+        endif
+    endfunction
+
+    nnoremap <M-CR> <Cmd>call <SID>ToggleMaxmize()<CR>
 endif
