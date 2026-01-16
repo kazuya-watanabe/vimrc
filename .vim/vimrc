@@ -54,6 +54,7 @@ set splitbelow
 set splitright
 set statusline=%<%f\ %y%m%r%h%w%q%{'['.(&fileencoding!=''?&fileencoding:&encoding).']['.&fileformat.']'}%=%p%%\ [%l/%L\ %v]
 set tabstop=4
+set updatetime=200
 set virtualedit=block
 set whichwrap+=<,>,~,[,]
 set wildignorecase
