@@ -6,12 +6,14 @@ if has('win32')
     set linespace=0
 
     function! s:ToggleMaxmize() abort
-        if exists('g:gvim_maximized')
-            simalt ~r
-            unlet g:gvim_maximized
+        if &columns < 120 || &columns > 160
+            set columns=120
+            set lines=40
+        elseif &columns < 160
+            set columns=160
+            set lines=60
         else
             simalt ~x
-            let g:gvim_maximized = 1
         endif
     endfunction
 
