@@ -248,7 +248,7 @@ if plug#begin()
                 \       ? expand('$HOME/vimfiles/roles.ini')
                 \       : expand('$HOME/.vim/roles.ini')
 
-    autocmd vimrc FileType aichat setlocal wrap | noremap! <silent><buffer> <S-CR> <Esc>:<C-u>AIChat<CR>
+    autocmd vimrc FileType aichat setlocal wrap | noremap! <silent><buffer> <S-CR> <Cmd>AIChat<CR>
 
     " vim-fern
     function! s:OpenFern() abort
