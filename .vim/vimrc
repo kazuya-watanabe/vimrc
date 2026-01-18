@@ -275,20 +275,20 @@ if plug#begin()
 
     nnoremap <leader>a  <plug>(lsp-code-action)
     nnoremap <leader>l  <plug>(lsp-code-lens)
-    nnoremap <leader>r  <plug>(lsp-rename)
+    nnoremap <leader>rn <plug>(lsp-rename)
     nnoremap <leader>f  <plug>(lsp-document-format)
     xnoremap <leader>f  <plug>(lsp-document-range-format)
 
-    nnoremap g[         <plug>(lsp-previous-diagnostic)
-    nnoremap g]         <plug>(lsp-next-diagnostic)
+    nnoremap [g         <plug>(lsp-previous-diagnostic)
+    nnoremap ]g         <plug>(lsp-next-diagnostic)
 
     nnoremap gd         <plug>(lsp-definition)
     nnoremap gi         <plug>(lsp-implementation)
     nnoremap gr         <plug>(lsp-references)
     nnoremap gy         <plug>(lsp-type-definition)
 
-    nnoremap gs         <plug>(lsp-document-symbol)
-    nnoremap gw         <plug>(lsp-document-symbol-search)
+    nnoremap gs         <plug>(lsp-document-symbol-search)
+    nnoremap gw         <plug>(lsp-workspace-symbol-search)
 
     " vimsector
     let g:vimspector_enable_mappings = 'HUMAN'
