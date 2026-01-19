@@ -128,11 +128,11 @@ let g:loaded_netrw = 1 | let g:loaded_netrwPlugin = 1
 let g:loaded_tutor_mode_plugin = 1
 let g:loaded_vimballPlugin = 1 | let g:loaded_vimball = 1
 
-packadd! matchit
-packadd! editorconfig
-packadd comment
-packadd nohlsearch
-packadd hlyank
+silent! packadd! matchit
+silent! packadd! editorconfig
+silent! packadd comment
+silent! packadd nohlsearch
+silent! packadd hlyank
 
 let s:vimplug_path = exists('$MYVIMDIR')
             \   ? expand('$MYVIMDIR/autoload/plug.vim')
@@ -198,7 +198,7 @@ if plug#begin()
 
     " lightline.vim
     function! s:LightlineBufferlineFilter(buffer)
-        return getbufvar(a:buffer, '&buftype') !=# 'terminal' && getbufvar(a:buffer, '&filetype') !=# 'fugitive'
+        return getbufvar(a:buffer, '&buftype') !=# 'terminal'
     endfunction
 
     let g:lightline = {
