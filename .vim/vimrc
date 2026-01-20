@@ -203,13 +203,13 @@ if plug#begin()
 
     let g:lightline = {
                 \   'active': {
-                \       'left': [ [ 'mode', 'paste', 'skk' ], [ 'branch', 'readonly', 'filename', 'modified' ] ],
+                \       'left': [ [ 'mode', 'paste' ], [ 'branch', 'readonly', 'filename', 'modified' ] ],
                 \       'right': [ [ 'lineinfo' ], [ 'percent' ], [ 'fileformat', 'fileencoding', 'filetype' ] ],
                 \       },
                 \   'colorscheme': 'PaperColor',
                 \   'component': { 'filename': '%{nerdfont#find()} %{expand("%")}' },
                 \   'component_expand': { 'buffers': 'lightline#bufferline#buffers' },
-                \   'component_function': { 'branch': 'FugitiveHead', 'skk': 'eskk#statusline' },
+                \   'component_function': { 'branch': 'FugitiveHead' },
                 \   'component_type': { 'buffers': 'tabsel' },
                 \   'separator': { 'left': '', 'right': '' },
                 \   'subseparator': { 'left': '', 'right': '' },
