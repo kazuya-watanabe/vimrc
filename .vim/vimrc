@@ -12,7 +12,7 @@ set balloonevalterm
 set belloff=all
 set breakindent
 set clipboard^=unnamed
-set completeopt=menuone,noinsert,popup
+set completeopt=menuone,noinsert,noselect
 set cmdheight=2
 set diffopt+=vertical
 set display=truncate
@@ -117,9 +117,9 @@ else
 endif
 
 if executable('zenhan.exe')
-    inoremap <silent> <Esc> <Cmd>silent call job_start(['zenhan.exe', '0'])<CR><Esc>
+    inoremap <silent> <Esc> <Cmd>call job_start(['zenhan.exe', '0'])<CR><Esc>
 elseif executable('im-select')
-    inoremap <silent> <Esc> <Cmd>silent call job_start(['im-select', 'com.apple.keylayout.ABC'])<CR><Esc>
+    inoremap <silent> <Esc> <Cmd>call job_start(['im-select', 'com.apple.keylayout.ABC'])<CR><Esc>
 endif
 
 " plugins
@@ -176,9 +176,6 @@ if plug#begin()
         Plug 'madox2/vim-ai', { 'on': [] }
         Plug 'puremourning/vimspector', { 'on': [] }
     endif
-
-    " asyncomplete.vim
-    let g:asyncomplete_auto_completeopt = 0
 
     " fzf
     let g:fzf_action = {
