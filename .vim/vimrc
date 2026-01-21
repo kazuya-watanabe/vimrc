@@ -10,6 +10,7 @@ set background=dark
 set ballooneval
 set balloonevalterm
 set belloff=all
+set breakindent
 set clipboard^=unnamed
 set completeopt=menuone,noinsert,popup
 set cmdheight=2
@@ -29,7 +30,7 @@ set incsearch
 set laststatus=2
 set lazyredraw
 set list
-set listchars=tab:>-,leadmultispace:\ \ \ \|,trail:_,extends:>,precedes:<,conceal:*,nbsp:_
+set listchars=tab:>-,leadmultispace:\|\ \:\ ,trail:_,extends:>,precedes:<,conceal:*,nbsp:_
 set nrformats-=octal
 set number
 set ruler
