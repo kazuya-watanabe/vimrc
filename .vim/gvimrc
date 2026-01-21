@@ -6,14 +6,13 @@ if has('win32')
     set linespace=0
 
     function! s:ToggleMaxmize() abort
-        if &columns < 120 || &columns > 160
-            set columns=120
-            set lines=40
-        elseif &columns < 160
-            set columns=160
-            set lines=60
-        else
-            simalt ~x
+        let l:last_columns = &columns
+        let l:last_lines = &lines
+
+        simalt ~x
+
+        if l:last_columns == &columns && l:last_lines == &lines
+            simalt ~r
         endif
     endfunction
 
