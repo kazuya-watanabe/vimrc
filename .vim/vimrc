@@ -186,6 +186,9 @@ if plug#begin()
     let g:fzf_layout = { 'window': { 'width': 0.9, 'height': 0.8 } }
     let g:fzf_vim = { 'command_prefix': 'Fzf' }
 
+    if !exists('$FZF_DEFAULT_COMMAND') | let $FZF_DEFAULT_COMMAND = 'fd --hidden --follow --type f' | endif
+    if !exists('$FZF_DEFAULT_OPTS') | let $FZF_DEFAULT_OPTS = '--style full --height 40% --layout=reverse' | endif
+
     command! -complete=file -bang -nargs=* Grep call fzf#vim#grep('rg --follow --hidden --smart-case --with-filename --column --line-number --no-heading --color=always -- ' . <q-args>, fzf#vim#with_preview(), <bang>0)
 
     nnoremap <silent> fb <Cmd>FzfBuffers<CR>
