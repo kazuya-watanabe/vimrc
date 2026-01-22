@@ -178,7 +178,6 @@ if plug#begin()
     endif
 
     " fzf
-    let $FZF_DEFAULT_COMMAND = 'fd --hidden --follow --type f'
     let $FZF_DEFAULT_OPTS = '--style full --layout=reverse'
     let g:fzf_action = {
                 \   'Ctrl-t': 'tab split',
