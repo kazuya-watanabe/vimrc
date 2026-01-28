@@ -20,8 +20,6 @@ set encoding=utf-8
 set expandtab
 set fileformats=unix,dos
 set formatoptions+=mM
-set grepformat=%f:%l:%c:%m
-set grepprg=rg\ --vimgrep\ --follow\ --hidden\ --smart-case
 set hidden
 set history=10000
 set hlsearch
@@ -63,6 +61,11 @@ set wildmode=longest:full,full
 set wildoptions=pum
 set nowrap
 set nowritebackup
+
+if executable('rg')
+    set grepformat=%f:%l:%c:%m
+    set grepprg=rg\ --vimgrep\ --follow\ --hidden\ --smart-case
+endif
 
 if has('gui_running')
     set background=light
@@ -185,7 +188,9 @@ if plug#begin()
     let g:fzf_layout = { 'window': { 'width': 0.9, 'height': 0.8 } }
     let g:fzf_vim = { 'command_prefix': 'Fzf' }
 
-    command! -complete=file -bang -nargs=* Grep call fzf#vim#grep('rg --follow --hidden --smart-case --with-filename --column --line-number --no-heading --color=always -- ' . <q-args>, fzf#vim#with_preview(), <bang>0)
+    if executable('rg')
+        command! -complete=file -bang -nargs=* Grep call fzf#vim#grep('rg --follow --hidden --smart-case --with-filename --column --line-number --no-heading --color=always -- ' . <q-args>, fzf#vim#with_preview(), <bang>0)
+    endif
 
     nnoremap <silent> fb <Cmd>FzfBuffers<CR>
     nnoremap <silent> ff <Cmd>FzfFiles<CR>
@@ -194,19 +199,38 @@ if plug#begin()
     nnoremap <silent> fl <Cmd>FzfBLines<CR>
 
     " lightline.vim
-    function! s:LightlineBufferlineFilter(buffer)
+    function! s:FugitiveHead() abort
+        try
+            let l:branch = FugitiveHead()
+
+            if len(l:branch)
+                return ' ' . l:branch
+            endif
+        catch
+        endtry
+
+        return ''
+    endfunction
+
+    function! s:LightlineBufferlineFilter(buffer) abort
         return getbufvar(a:buffer, '&buftype') !=# 'terminal'
     endfunction
 
     let g:lightline = {
                 \   'active': {
-                \       'left': [ [ 'mode', 'paste' ], [ 'branch', 'readonly', 'filename', 'modified' ] ],
+                \       'left': [ [ 'mode' ], [ 'branch', 'readonly', 'paste', 'modified' ], [ 'filename' ] ],
                 \       'right': [ [ 'lineinfo' ], [ 'percent' ], [ 'fileformat', 'fileencoding', 'filetype' ] ],
                 \       },
                 \   'colorscheme': 'PaperColor',
-                \   'component': { 'filename': '%{nerdfont#find()} %{expand("%")}' },
+                \   'component': {
+                \       'filename': '%{nerdfont#find()} %{expand("%")}',
+                \       'modified': '%{&modified?" MODIFIED":""}',
+                \       'paste': '%{&paste?"󰅇 PASTE":""}',
+                \       'readonly': '%{&readonly?" READONLY":""}',
+                \       'spell': '%{&spell?"󰓆 SPELL":""}',
+                \       },
                 \   'component_expand': { 'buffers': 'lightline#bufferline#buffers' },
-                \   'component_function': { 'branch': 'FugitiveHead' },
+                \   'component_function': { 'branch': get(function('s:FugitiveHead'), 'name') },
                 \   'component_type': { 'buffers': 'tabsel' },
                 \   'separator': { 'left': '', 'right': '' },
                 \   'subseparator': { 'left': '', 'right': '' },
@@ -297,7 +321,7 @@ if plug#begin()
         PlugInstall --sync
     endif
 
-    function! s:LoadPlugs(timer)
+    function! s:LoadPlugs(timer) abort
         call plug#load(keys(g:plugs))
         call fern_git_status#init()
 
