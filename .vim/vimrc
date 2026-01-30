@@ -28,7 +28,7 @@ set incsearch
 set laststatus=2
 set lazyredraw
 set list
-set listchars=tab:,leadmultispace:┆\ \ \ ,trail:󱓼,extends:,precedes:,conceal:,nbsp:󱓼
+set listchars=tab:,leadmultispace:┆\ \ ,trail:󱓼,extends:,precedes:,conceal:,nbsp:󱓼
 set nrformats-=octal
 set number
 set ruler
@@ -90,7 +90,7 @@ augroup vimrc
 augroup END
 
 " commands
-command! -nargs=* -complete=dir Grep silent grep! <args> | cwindow
+command! -nargs=* -complete=file Grep silent grep! <args> | cwindow
 
 " keymaps
 let g:mapleader = ','
