@@ -19,6 +19,7 @@ set display=truncate
 set encoding=utf-8
 set expandtab
 set fileformats=unix,dos
+set fillchars=vert:│,fold:─,foldopen:,foldclose:,foldsep:│,diff:─,eob:󰜥,lastline:󰁥,trunc:,truncrl:,tpl_vert:│
 set formatoptions+=mM
 set hidden
 set history=10000
@@ -28,7 +29,7 @@ set incsearch
 set laststatus=2
 set lazyredraw
 set list
-set listchars=tab:,leadmultispace:┆\ \ ,trail:󱓼,extends:,precedes:,conceal:,nbsp:󱓼
+set listchars=tab:─,leadmultispace:┆\ \ ,trail:󱓼,extends:,precedes:,conceal:,nbsp:󱓼
 set nrformats-=octal
 set number
 set ruler
@@ -36,7 +37,7 @@ set scrolloff=10
 set sessionoptions+=globals,localoptions
 set shiftwidth=4
 set shortmess+=c
-set showbreak=\ 
+set showbreak=──\ 
 set showcmd
 set showmatch
 set showtabline=2
