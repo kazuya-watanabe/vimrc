@@ -224,6 +224,7 @@ if plug#begin()
                 \       },
                 \   'colorscheme': 'PaperColor',
                 \   'component': {
+                \       'fileformat': '%{nerdfont#fileformat#find()} %{&fileformat}',
                 \       'filename': '%{nerdfont#find()} %{expand("%")}',
                 \       'modified': '%{&modified?" MODIFIED":""}',
                 \       'paste': '%{&paste?"󰅇 PASTE":""}',
