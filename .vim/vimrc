@@ -165,6 +165,7 @@ if plug#begin()
     Plug 'lambdalisue/vim-fern', { 'on': [] } | Plug 'lambdalisue/vim-fern-git-status', { 'on': [] } | Plug 'lambdalisue/vim-nerdfont' | Plug 'lambdalisue/vim-glyph-palette', { 'on': [] } | Plug 'lambdalisue/vim-fern-renderer-nerdfont', { 'on': [] }
     Plug 'prabirshrestha/vim-lsp' | Plug 'mattn/vim-lsp-settings', { 'on': [] } | Plug 'prabirshrestha/asyncomplete.vim', { 'on': [] } | Plug 'prabirshrestha/asyncomplete-lsp.vim', { 'on': [] }
     Plug 'tpope/vim-fugitive', { 'on': [] }
+    Plug 'vim-jp/vimdoc-ja', { 'on': [] }
 
     if executable('node')
         Plug 'github/copilot.vim', { 'on': [] }
