@@ -4,7 +4,7 @@ if has('win32')
     set guifontwide=MS_Gothic:h12
     set lines=40
     set linespace=0
-    set renderoptions=type:directx,renmode:5
+    set renderoptions=type:directx
 
     function! s:ToggleMaxmize() abort
         let l:last_columns = &columns
