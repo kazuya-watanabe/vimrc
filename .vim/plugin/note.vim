@@ -1,4 +1,4 @@
-if get(g:, 'loaded_note', 0)
+if get(g:, 'loaded_note', 0) || version < 802
   finish
 endif
 

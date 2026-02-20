@@ -1,5 +1,5 @@
-if version < 900
-    echoerr 'This vimrc requires Vim 9.0 or higher.'
+if version < 802
+    echoerr 'This vimrc requires Vim 8.2 or higher.'
     finish
 endif
 
@@ -19,7 +19,7 @@ set display=truncate
 set encoding=utf-8
 set expandtab
 set fileformats=unix,dos
-set fillchars=vert:│,fold:─,foldopen:,foldclose:,foldsep:│,diff:─,eob:󰜥,lastline:󰁥,trunc:,truncrl:,tpl_vert:│
+set fillchars=vert:│,fold:─,diff:─
 set formatoptions+=mM
 set hidden
 set history=10000
@@ -29,7 +29,7 @@ set incsearch
 set laststatus=2
 set lazyredraw
 set list
-set listchars=tab:─,leadmultispace:┆\ \ ,trail:󱓼,extends:,precedes:,conceal:,nbsp:󱓼
+set listchars=tab:─,trail:󱓼,extends:,precedes:,conceal:,nbsp:󱓼
 set nrformats-=octal
 set number
 set ruler
@@ -49,7 +49,6 @@ set smartindent
 set smarttab
 set softtabstop=-1
 set spelllang=en,cjk
-set spelloptions=camel
 set splitbelow
 set splitright
 set statusline=%<%f\ %y%m%r%h%w%q%{'['.(&fileencoding!=''?&fileencoding:&encoding).']['.&fileformat.']'}%=%p%%\ [%l/%L\ %v]
@@ -59,9 +58,20 @@ set virtualedit=block
 set whichwrap+=<,>,~,[,]
 set wildignorecase
 set wildmode=longest:full,full
-set wildoptions=pum
 set nowrap
 set nowritebackup
+
+if version > 802
+    set fillchars+=eob:󰜥,foldopen:,foldclose:,foldsep:│
+    set listchars+=leadmultispace:┆\ \ 
+    set spelloptions=camel
+    set wildoptions=pum
+
+    if version > 901
+        set fillchars+=lastline:󰁥,trunc:,truncrl:,tpl_vert:│
+        set diffopt+=linematch:60
+    endif
+endif
 
 if executable('rg')
     set grepformat=%f:%l:%c:%m
@@ -286,6 +296,7 @@ if plug#begin()
     let g:fern#default_exclude = '^\%(\.git\|\.svn\|\.hg\|node_modules\|vendor\|.*\.swp\)$'
     let g:fern#default_hidden = 1
     let g:fern#renderer = 'nerdfont'
+    let g:fern_disable_startup_warnings = 1
 
     autocmd vimrc FileType fern setlocal nonumber
 
