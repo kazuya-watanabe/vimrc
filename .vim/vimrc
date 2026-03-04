@@ -3,10 +3,16 @@ if version < 802
     finish
 endif
 
+if !exists('$MYVIMDIR')
+    let $MYVIMDIR = has('win32') ? '~/vimfiles' : '~/.vim'
+endif
+
 " options
 set autoindent
 set autoread
 set background=dark
+set backup
+set backupdir=$MYVIMDIR/backup | silent call mkdir(expand(&backupdir), 'p', 0700)
 set ballooneval
 set balloonevalterm
 set belloff=all
@@ -15,6 +21,7 @@ set clipboard^=unnamed
 set completeopt=menuone,noinsert,noselect
 set cmdheight=2
 set diffopt+=vertical
+set directory=$MYVIMDIR/swap | silent call mkdir(expand(&directory), 'p', 0700)
 set display=truncate
 set encoding=utf-8
 set expandtab
@@ -53,6 +60,8 @@ set splitbelow
 set splitright
 set statusline=%<%f\ %y%m%r%h%w%q%{'['.(&fileencoding!=''?&fileencoding:&encoding).']['.&fileformat.']'}%=%p%%\ [%l/%L\ %v]
 set tabstop=4
+set undodir=$MYVIMDIR/undo | silent call mkdir(expand(&undodir), 'p', 0700)
+set undofile
 set updatetime=200
 set virtualedit=block
 set whichwrap+=<,>,~,[,]
@@ -142,12 +151,7 @@ let g:loaded_logiPat = 1
 let g:loaded_netrw = 1 | let g:loaded_netrwPlugin = 1
 let g:loaded_tutor_mode_plugin = 1
 let g:loaded_vimballPlugin = 1 | let g:loaded_vimball = 1
-
-let s:vimplug_path = exists('$MYVIMDIR')
-            \   ? expand('$MYVIMDIR/autoload/plug.vim')
-            \   : has('win32')
-            \       ? expand('$HOME/vimfiles/autoload/plug.vim')
-            \       : expand('$HOME/.vim/autoload/plug.vim')
+let s:vimplug_path = expand('$MYVIMDIR/autoload/plug.vim')
 
 if !filereadable(s:vimplug_path)
     if !executable('git')
@@ -276,11 +280,7 @@ if plug#begin()
     let g:vim_ai_token_file_path = exists('$XDG_CONFIG_HOME')
                 \   ? expand('$XDG_CONFIG_HOME/openai.token')
                 \   : expand('$HOME/.config/openai.token')
-    let g:vim_ai_roles_config_file = exists('$MYVIMDIR')
-                \   ? expand('$MYVIMDIR/roles.ini')
-                \   : has('win32')
-                \       ? expand('$HOME/vimfiles/roles.ini')
-                \       : expand('$HOME/.vim/roles.ini')
+    let g:vim_ai_roles_config_file = expand('$MYVIMDIR/roles.ini')
 
     autocmd vimrc FileType aichat setlocal wrap | noremap! <silent><buffer> <S-CR> <Cmd>AIChat<CR>
 
