@@ -3,6 +3,7 @@ if version < 802
     finish
 endif
 
+" initialize
 if !exists('$MYVIMDIR')
     let $MYVIMDIR = has('win32') ? '~/vimfiles' : '~/.vim'
 endif
@@ -63,6 +64,7 @@ set tabstop=4
 set undodir=$MYVIMDIR/undo | silent call mkdir(expand(&undodir), 'p', 0700)
 set undofile
 set updatetime=200
+set viminfo+=n$MYVIMDIR/viminfo
 set virtualedit=block
 set whichwrap+=<,>,~,[,]
 set wildignorecase
