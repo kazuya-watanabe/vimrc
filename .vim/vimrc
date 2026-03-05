@@ -349,6 +349,15 @@ if plug#begin()
     call timer_start(200, function('s:LoadPlugs'))
 
     " papercolor-theme
+    let g:PaperColor_Theme_Options = {
+                \   'theme': {
+                \       'default': {
+                \           'transparent_background': 1
+                \           }
+                \       }
+                \   }
+
     colorscheme PaperColor
+
     highlight! link Terminal Normal
 endif
