@@ -80,7 +80,7 @@ if version > 802
 
     if version > 901
         set fillchars+=lastline:󰁥,trunc:,truncrl:,tpl_vert:│
-        set diffopt+=linematch:60
+        set diffopt+=linematch:60,inline:word
     endif
 endif
 
