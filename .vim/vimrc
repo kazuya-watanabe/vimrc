@@ -185,6 +185,7 @@ if plug#begin()
 
     if executable('node')
         Plug 'github/copilot.vim', { 'on': [] }
+        Plug 'iamcco/markdown-preview.nvim', { 'do': { -> mkdp#util#install() }, 'for': ['markdown', 'vim-plug'] }
     endif
 
     if has('python3')
@@ -295,7 +296,7 @@ if plug#begin()
         endif
     endfunction
 
-    let g:fern#default_exclude = '^\%(\.git\|\.svn\|\.hg\|node_modules\|vendor\|.*\.swp\)$'
+    let g:fern#default_exclude = '^\%(\.git\|\.svn\|\.hg\|node_modules\|vendor\|.*\.swp\|\.DS_Store\)$'
     let g:fern#default_hidden = 1
     let g:fern#renderer = 'nerdfont'
     let g:fern_disable_startup_warnings = 1
