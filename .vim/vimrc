@@ -182,6 +182,7 @@ if plug#begin()
     Plug 'prabirshrestha/vim-lsp' | Plug 'mattn/vim-lsp-settings', { 'on': [] } | Plug 'prabirshrestha/asyncomplete.vim', { 'on': [] } | Plug 'prabirshrestha/asyncomplete-lsp.vim', { 'on': [] }
     Plug 'tpope/vim-fugitive', { 'on': [] }
     Plug 'vim-jp/vimdoc-ja', { 'on': [] }
+    Plug 'iamcco/markdown-preview.nvim', { 'do': { -> mkdp#util#install() }, 'on': [] }
 
     if executable('node')
         Plug 'github/copilot.vim', { 'on': [] }
