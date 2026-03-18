@@ -286,7 +286,7 @@ if plug#begin()
                 \   : expand('$HOME/.config/openai.token')
     let g:vim_ai_roles_config_file = expand('$MYVIMDIR/roles.ini')
 
-    autocmd vimrc FileType aichat setlocal wrap | noremap! <silent><buffer> <S-CR> <Cmd>AIChat<CR>
+    autocmd vimrc FileType aichat setlocal wrap | nnoremap <silent><buffer> <M-CR> <Cmd>AIChat<CR>
 
     " vim-fern
     function! s:OpenFern() abort
