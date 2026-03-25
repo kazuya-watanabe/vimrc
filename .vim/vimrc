@@ -136,9 +136,9 @@ nnoremap <silent> <Esc><Esc> <Cmd>nohlsearch<CR>
 
 if has('win32')
     set completeslash=slash
-    nnoremap <silent> <leader>sh <Cmd>terminal ++close ++rows=10 powershell.exe -NoLogo<CR><Cmd>setlocal winfixheight<CR>
+    nnoremap <silent> <leader>sh <Cmd>terminal ++close ++rows=12 powershell.exe -NoLogo<CR><Cmd>setlocal winfixheight<CR>
 else
-    nnoremap <silent> <leader>sh <Cmd>terminal ++close ++rows=10<CR><Cmd>setlocal winfixheight<CR>
+    nnoremap <silent> <leader>sh <Cmd>terminal ++close ++rows=12<CR><Cmd>setlocal winfixheight<CR>
 endif
 
 if executable('zenhan.exe')
@@ -182,7 +182,6 @@ if plug#begin()
     Plug 'prabirshrestha/vim-lsp' | Plug 'mattn/vim-lsp-settings', { 'on': [] } | Plug 'prabirshrestha/asyncomplete.vim', { 'on': [] } | Plug 'prabirshrestha/asyncomplete-lsp.vim', { 'on': [] }
     Plug 'tpope/vim-fugitive', { 'on': [] }
     Plug 'vim-jp/vimdoc-ja', { 'on': [] }
-    Plug 'iamcco/markdown-preview.nvim', { 'do': { -> mkdp#util#install() }, 'on': [] }
 
     if executable('node')
         Plug 'github/copilot.vim', { 'on': [] }
@@ -191,7 +190,6 @@ if plug#begin()
 
     if has('python3')
         Plug 'madox2/vim-ai', { 'on': [] }
-        Plug 'puremourning/vimspector', { 'on': [] }
     endif
 
     " fzf
