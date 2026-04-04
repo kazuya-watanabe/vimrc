@@ -69,7 +69,6 @@ set virtualedit=block
 set whichwrap+=<,>,~,[,]
 set wildignorecase
 set wildmode=longest:full,full
-set nowrap
 set nowritebackup
 
 if version > 802
