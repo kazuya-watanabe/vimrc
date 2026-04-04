@@ -288,9 +288,9 @@ if plug#begin()
     " vim-fern
     function! s:OpenFern() abort
         if empty(&buftype) && bufname() != ''
-            Fern . -drawer -reveal=%
+            Fern . -reveal=%
         else
-            Fern . -drawer
+            Fern .
         endif
     endfunction
 
