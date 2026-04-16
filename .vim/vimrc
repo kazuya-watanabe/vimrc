@@ -131,8 +131,6 @@ noremap! <C-f> <Right>
 noremap! <C-n> <Down>
 noremap! <C-p> <Up>
 
-nnoremap <silent> <Esc><Esc> <Cmd>nohlsearch<CR>
-
 if has('win32')
     set completeslash=slash
     nnoremap <silent> <leader>sh <Cmd>terminal ++close ++rows=12 powershell.exe -NoLogo<CR><Cmd>setlocal winfixheight<CR>
@@ -141,9 +139,11 @@ else
 endif
 
 if executable('zenhan.exe')
-    inoremap <silent> <Esc> <Cmd>call job_start(['zenhan.exe', '0'])<CR><Esc>
+    noremap <silent> <Esc> <Cmd>call system('zenhan.exe 0')<CR><Esc>
+    noremap! <silent> <Esc> <Cmd>call system('zenhan.exe 0')<CR><Esc>
 elseif executable('im-select')
-    inoremap <silent> <Esc> <Cmd>call job_start(['im-select', 'com.apple.keylayout.ABC'])<CR><Esc>
+    noremap <Esc> <Cmd>call system('im-select com.apple.keylayout.ABC')<CR><Esc>
+    noremap! <Esc> <Cmd>call system('im-select com.apple.keylayout.ABC')<CR><Esc>
 endif
 
 " plugins
