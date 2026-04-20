@@ -304,6 +304,7 @@ if plug#begin()
     nnoremap <silent> <leader>e <Cmd>call <SID>OpenFern()<CR>
 
     " vim-lsp
+    let g:lsp_diagnostics_virtual_text_enabled = 0
     let g:lsp_use_native_client = 1
 
     nnoremap <C-k>      <plug>(lsp-signature-help)
