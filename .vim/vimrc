@@ -5,7 +5,7 @@ endif
 
 " initialize
 if !exists('$MYVIMDIR')
-    let $MYVIMDIR = has('win32') ? '~/vimfiles' : '~/.vim'
+    let $MYVIMDIR = expand(has('win32') ? '~/vimfiles' : '~/.vim')
 endif
 
 " options
@@ -152,7 +152,7 @@ let g:loaded_logiPat = 1
 let g:loaded_netrw = 1 | let g:loaded_netrwPlugin = 1
 let g:loaded_tutor_mode_plugin = 1
 let g:loaded_vimballPlugin = 1 | let g:loaded_vimball = 1
-let s:vimplug_path = expand('$MYVIMDIR/autoload/plug.vim')
+let s:vimplug_path = $MYVIMDIR . '/autoload/plug.vim'
 
 if !filereadable(s:vimplug_path)
     if !executable('git')
@@ -281,7 +281,7 @@ if plug#begin()
     let g:vim_ai_token_file_path = exists('$XDG_CONFIG_HOME')
                 \   ? expand('$XDG_CONFIG_HOME/openai.token')
                 \   : expand('$HOME/.config/openai.token')
-    let g:vim_ai_roles_config_file = expand('$MYVIMDIR/roles.ini')
+    let g:vim_ai_roles_config_file = $MYVIMDIR . '/roles.ini'
 
     autocmd vimrc FileType aichat setlocal wrap | nnoremap <silent><buffer> <M-CR> <Cmd>AIChat<CR>
 
