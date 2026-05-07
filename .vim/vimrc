@@ -61,6 +61,8 @@ set splitbelow
 set splitright
 set statusline=%<%f\ %y%m%r%h%w%q%{'['.(&fileencoding!=''?&fileencoding:&encoding).']['.&fileformat.']'}%=%p%%\ [%l/%L\ %v]
 set tabstop=4
+set ttimeout
+set ttimeoutlen=50
 set undodir=$MYVIMDIR/undo | silent call mkdir(expand(&undodir), 'p', 0700)
 set undofile
 set updatetime=200
@@ -275,6 +277,21 @@ if plug#begin()
     nnoremap <M-l> <Plug>lightline#bufferline#go_next()
     nnoremap <M-L> <Plug>lightline#bufferline#move_next()
     nnoremap <M-H> <Plug>lightline#bufferline#move_previous()
+
+    nnoremap <Esc>0 <Plug>lightline#bufferline#go(10)
+    nnoremap <Esc>1 <Plug>lightline#bufferline#go(1)
+    nnoremap <Esc>2 <Plug>lightline#bufferline#go(2)
+    nnoremap <Esc>3 <Plug>lightline#bufferline#go(3)
+    nnoremap <Esc>4 <Plug>lightline#bufferline#go(4)
+    nnoremap <Esc>5 <Plug>lightline#bufferline#go(5)
+    nnoremap <Esc>6 <Plug>lightline#bufferline#go(6)
+    nnoremap <Esc>7 <Plug>lightline#bufferline#go(7)
+    nnoremap <Esc>8 <Plug>lightline#bufferline#go(8)
+    nnoremap <Esc>9 <Plug>lightline#bufferline#go(9)
+    nnoremap <Esc>h <Plug>lightline#bufferline#go_previous()
+    nnoremap <Esc>l <Plug>lightline#bufferline#go_next()
+    nnoremap <Esc>L <Plug>lightline#bufferline#move_next()
+    nnoremap <Esc>H <Plug>lightline#bufferline#move_previous()
 
     " vim-ai
     let g:vim_ai_chat_markdown = 1
