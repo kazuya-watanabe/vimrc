@@ -109,8 +109,7 @@ endif
 augroup vimrc
     autocmd!
     autocmd BufNewFile,BufRead *.bat,*.cmd,*.ps1,*.reg setlocal fileformat=dos fileencoding=default
-    autocmd FileType help,qf,aichat,fugitive nnoremap <buffer> q <Cmd>close<CR>
-    autocmd FileType fern nnoremap <buffer> q <Cmd>bdelete<CR>
+    autocmd FileType help,qf,aichat,fugitive setlocal nonumber | nnoremap <buffer> q <Cmd>close<CR>
 augroup END
 
 " commands
@@ -178,6 +177,7 @@ if plug#begin()
     Plug 'NLKNguyen/papercolor-theme'
     Plug 'airblade/vim-gitgutter', { 'on': [] }
     Plug 'easymotion/vim-easymotion', { 'on': [] }
+    Plug 'godlygeek/tabular', { 'on': [] } | Plug 'preservim/vim-markdown', { 'on': [] }
     Plug 'itchyny/lightline.vim' | Plug 'mengelbrecht/lightline-bufferline', { 'on': [] }
     Plug 'junegunn/fzf', { 'on': [] } | Plug 'junegunn/fzf.vim', { 'on': [] }
     Plug 'lambdalisue/vim-fern', { 'on': [] } | Plug 'lambdalisue/vim-fern-git-status', { 'on': [] } | Plug 'lambdalisue/vim-nerdfont' | Plug 'lambdalisue/vim-glyph-palette', { 'on': [] } | Plug 'lambdalisue/vim-fern-renderer-nerdfont', { 'on': [] }
@@ -317,7 +317,7 @@ if plug#begin()
     let g:fern#renderer = 'nerdfont'
     let g:fern_disable_startup_warnings = 1
 
-    autocmd vimrc FileType fern setlocal nonumber
+    autocmd vimrc FileType fern setlocal nonumber | nnoremap <buffer> q <Cmd>bdelete<CR>
 
     nnoremap <silent> <leader>e <Cmd>call <SID>OpenFern()<CR>
 
@@ -345,8 +345,9 @@ if plug#begin()
     nnoremap gs         <plug>(lsp-document-symbol-search)
     nnoremap gw         <plug>(lsp-workspace-symbol-search)
 
-    " vimspector
-    let g:vimspector_enable_mappings = 'HUMAN'
+    " vim-markdown
+    let g:vim_markdown_folding_disabled = 1
+    let g:vim_markdown_toc_autofit = 1
 
     " vim-plug end
     call plug#end()
