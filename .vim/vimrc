@@ -109,7 +109,8 @@ endif
 augroup vimrc
     autocmd!
     autocmd BufNewFile,BufRead *.bat,*.cmd,*.ps1,*.reg setlocal fileformat=dos fileencoding=default
-    autocmd FileType help,qf,aichat,fern,fugitive nnoremap <buffer> q <Cmd>close<CR>
+    autocmd FileType help,qf,aichat,fugitive nnoremap <buffer> q <Cmd>close<CR>
+    autocmd FileType fern nnoremap <buffer> q <Cmd>bdelete<CR>
 augroup END
 
 " commands
