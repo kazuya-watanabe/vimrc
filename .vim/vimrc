@@ -80,8 +80,13 @@ if version > 802
     set wildoptions=pum
 
     if version > 901
-        set fillchars+=lastline:󰁥,trunc:,truncrl:,tpl_vert:│
+        set autocomplete
+        set complete+=o
+        set completeopt+=popup,preinsert
+        set completepopup=border:round,opacity:80
         set diffopt+=linematch:60,inline:word
+        set fillchars+=lastline:󰁥,trunc:,truncrl:,tpl_vert:│
+        set infercase
     endif
 endif
 
@@ -180,8 +185,8 @@ if plug#begin()
     Plug 'godlygeek/tabular', { 'on': [] } | Plug 'preservim/vim-markdown', { 'on': [] }
     Plug 'itchyny/lightline.vim' | Plug 'mengelbrecht/lightline-bufferline', { 'on': [] }
     Plug 'junegunn/fzf', { 'on': [] } | Plug 'junegunn/fzf.vim', { 'on': [] }
-    Plug 'lambdalisue/vim-fern', { 'on': [] } | Plug 'lambdalisue/vim-fern-git-status', { 'on': [] } | Plug 'lambdalisue/vim-nerdfont' | Plug 'lambdalisue/vim-glyph-palette', { 'on': [] } | Plug 'lambdalisue/vim-fern-renderer-nerdfont', { 'on': [] }
-    Plug 'prabirshrestha/vim-lsp' | Plug 'mattn/vim-lsp-settings', { 'on': [] } | Plug 'prabirshrestha/asyncomplete.vim', { 'on': [] } | Plug 'prabirshrestha/asyncomplete-lsp.vim', { 'on': [] }
+    Plug 'lambdalisue/vim-fern', { 'on': [] } | Plug 'lambdalisue/vim-nerdfont' | Plug 'lambdalisue/vim-glyph-palette', { 'on': [] } | Plug 'lambdalisue/vim-fern-renderer-nerdfont', { 'on': [] }
+    Plug 'prabirshrestha/vim-lsp' | Plug 'mattn/vim-lsp-settings', { 'on': [] }
     Plug 'tpope/vim-fugitive', { 'on': [] }
     Plug 'vim-jp/vimdoc-ja', { 'on': [] }
 
@@ -306,9 +311,9 @@ if plug#begin()
     " vim-fern
     function! s:OpenFern() abort
         if empty(&buftype) && bufname() != ''
-            Fern . -reveal=%
+            Fern . -drawer -reveal=%
         else
-            Fern .
+            Fern . -drawer
         endif
     endfunction
 
@@ -358,7 +363,6 @@ if plug#begin()
 
     function! s:LoadPlugs(timer) abort
         call plug#load(keys(g:plugs))
-        call fern_git_status#init()
 
         silent! packadd! matchit
         silent! packadd! editorconfig
