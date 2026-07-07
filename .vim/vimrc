@@ -27,7 +27,6 @@ set display=truncate
 set encoding=utf-8
 set expandtab
 set fileformats=unix,dos
-set fillchars=vert:│,fold:─,diff:─
 set formatoptions+=mM
 set hidden
 set history=10000
@@ -37,7 +36,7 @@ set incsearch
 set laststatus=2
 set lazyredraw
 set list
-set listchars=tab:─,trail:󱓼,extends:,precedes:,conceal:,nbsp:󱓼
+set listchars=tab:>-,trail:_,extends:>,precedes:<,conceal:*,nbsp:_
 set nrformats-=octal
 set number
 set ruler
@@ -45,7 +44,7 @@ set scrolloff=10
 set sessionoptions+=globals,localoptions
 set shiftwidth=4
 set shortmess+=c
-set showbreak=──\ 
+set showbreak=-->\ 
 set showcmd
 set showmatch
 set showtabline=2
@@ -74,8 +73,7 @@ set wildmode=longest:full,full
 set nowritebackup
 
 if version > 802
-    set fillchars+=eob:󰜥,foldopen:,foldclose:,foldsep:│
-    set listchars+=leadmultispace:┆\ \ 
+    set listchars+=leadmultispace:\|\ :\ 
     set spelloptions=camel
     set wildoptions=pum
 
@@ -83,9 +81,8 @@ if version > 802
         set autocomplete
         set complete+=o
         set completeopt+=popup,preinsert
-        set completepopup=border:round,opacity:80
+        set completepopup=border:round
         set diffopt+=linematch:60,inline:word
-        set fillchars+=lastline:󰁥,trunc:,truncrl:,tpl_vert:│
         set infercase
     endif
 endif
@@ -114,7 +111,7 @@ endif
 augroup vimrc
     autocmd!
     autocmd BufNewFile,BufRead *.bat,*.cmd,*.ps1,*.reg setlocal fileformat=dos fileencoding=default
-    autocmd FileType help,qf,aichat,fugitive setlocal nonumber | nnoremap <buffer> q <Cmd>close<CR>
+    autocmd FileType help,qf,aichat,fern,fugitive setlocal nonumber | nnoremap <buffer> q <Cmd>close<CR>
 augroup END
 
 " commands
@@ -277,8 +274,6 @@ if plug#begin()
                 \   : expand('$HOME/.config/openai.token')
     let g:vim_ai_roles_config_file = $MYVIMDIR . '/roles.ini'
 
-    autocmd vimrc FileType aichat setlocal wrap | nnoremap <silent><buffer> <M-CR> <Cmd>AIChat<CR>
-
     " vim-fern
     function! s:OpenFern() abort
         if empty(&buftype) && bufname() != ''
@@ -290,9 +285,6 @@ if plug#begin()
 
     let g:fern#default_exclude = '^\%(\.git\|\.svn\|\.hg\|node_modules\|vendor\|\.venv\|.*\.swp\|\.DS_Store\)$'
     let g:fern#default_hidden = 1
-    let g:fern_disable_startup_warnings = 1
-
-    autocmd vimrc FileType fern setlocal nonumber | nnoremap <buffer> q <Cmd>bdelete<CR>
 
     nnoremap <silent> <leader>e <Cmd>call <SID>OpenFern()<CR>
 
@@ -327,18 +319,6 @@ if plug#begin()
     " vim-plug end
     call plug#end()
 
-    function! s:LoadPlugs(timer) abort
-        call plug#load(keys(g:plugs))
-
-        silent! packadd! matchit
-        silent! packadd! editorconfig
-        silent! packadd comment
-        silent! packadd nohlsearch
-        silent! packadd hlyank
-    endfunction
-
-    call timer_start(200, function('s:LoadPlugs'))
-
     " papercolor-theme
     if !has('gui_running')
         let g:PaperColor_Theme_Options = {
@@ -353,4 +333,17 @@ if plug#begin()
     colorscheme PaperColor
 
     highlight! link Terminal Normal
+
+    " lazyload plugins
+    function! s:LoadPlugs(timer) abort
+        call plug#load(keys(g:plugs))
+
+        silent! packadd! matchit
+        silent! packadd! editorconfig
+        silent! packadd comment
+        silent! packadd nohlsearch
+        silent! packadd hlyank
+    endfunction
+
+    call timer_start(200, function('s:LoadPlugs'))
 endif
