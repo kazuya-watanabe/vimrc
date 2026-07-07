@@ -185,10 +185,10 @@ if plug#begin()
     Plug 'godlygeek/tabular', { 'on': [] } | Plug 'preservim/vim-markdown', { 'on': [] }
     Plug 'itchyny/lightline.vim' | Plug 'mengelbrecht/lightline-bufferline', { 'on': [] }
     Plug 'junegunn/fzf', { 'on': [] } | Plug 'junegunn/fzf.vim', { 'on': [] }
-    Plug 'lambdalisue/vim-fern', { 'on': [] } | Plug 'lambdalisue/vim-nerdfont' | Plug 'lambdalisue/vim-glyph-palette', { 'on': [] } | Plug 'lambdalisue/vim-fern-renderer-nerdfont', { 'on': [] }
+    Plug 'lambdalisue/vim-fern', { 'on': [] }
     Plug 'prabirshrestha/vim-lsp' | Plug 'mattn/vim-lsp-settings', { 'on': [] }
     Plug 'tpope/vim-fugitive', { 'on': [] }
-    Plug 'vim-jp/vimdoc-ja', { 'on': [] }
+    Plug 'tpope/vim-surround', { 'on': [] }
 
     if executable('node')
         Plug 'github/copilot.vim', { 'on': [] }
@@ -224,50 +224,21 @@ if plug#begin()
     nnoremap <silent> fl <Cmd>FzfBLines<CR>
 
     " lightline.vim
-    function! s:FugitiveHead() abort
-        try
-            let l:branch = FugitiveHead()
-
-            if len(l:branch)
-                return ' ' . l:branch
-            endif
-        catch
-        endtry
-
-        return ''
-    endfunction
-
     function! s:LightlineBufferlineFilter(buffer) abort
         return getbufvar(a:buffer, '&buftype') !=# 'terminal'
     endfunction
 
     let g:lightline = {
-                \   'active': {
-                \       'left': [ [ 'mode', 'paste', 'spell' ], [ 'branch', 'readonly', 'modified' ], [ 'filename' ] ],
-                \       'right': [ [ 'lineinfo' ], [ 'percent' ], [ 'fileformat', 'fileencoding', 'filetype' ] ],
-                \       },
                 \   'colorscheme': 'PaperColor',
-                \   'component': {
-                \       'fileformat': '%{nerdfont#fileformat#find()} %{&fileformat}',
-                \       'filename': '%{nerdfont#find()} %{expand("%")}',
-                \       'modified': '%{&modified?" MODIFIED":""}',
-                \       'paste': '%{&paste?"󰅇 PASTE":""}',
-                \       'readonly': '%{&readonly?" READONLY":""}',
-                \       'spell': '%{&spell?"󰓆 SPELL":""}',
-                \       },
                 \   'component_expand': { 'buffers': 'lightline#bufferline#buffers' },
-                \   'component_function': { 'branch': get(function('s:FugitiveHead'), 'name') },
+                \   'component_function': { 'branch': 'FugitiveHead' },
                 \   'component_type': { 'buffers': 'tabsel' },
-                \   'separator': { 'left': '', 'right': '' },
-                \   'subseparator': { 'left': '', 'right': '' },
-                \   'tabline': { 'left': [ [ 'buffers' ] ], 'right': [ [ 'close' ] ] },
+                \   'tabline': { 'left': [ [ 'buffers' ] ] },
                 \   }
     let g:lightline#bufferline#buffer_filter = get(function('s:LightlineBufferlineFilter'), 'name')
-    let g:lightline#bufferline#enable_nerdfont = 1
     let g:lightline#bufferline#margin_left = 1
     let g:lightline#bufferline#show_number = 2
     let g:lightline#bufferline#smart_path = 0
-    let g:lightline#bufferline#unicode_symbols = 1
 
     nnoremap <M-0> <Plug>lightline#bufferline#go(10)
     nnoremap <M-1> <Plug>lightline#bufferline#go(1)
@@ -311,15 +282,14 @@ if plug#begin()
     " vim-fern
     function! s:OpenFern() abort
         if empty(&buftype) && bufname() != ''
-            Fern . -drawer -reveal=%
+            Fern . -drawer -toggle -reveal=%
         else
-            Fern . -drawer
+            Fern . -drawer -toggle
         endif
     endfunction
 
-    let g:fern#default_exclude = '^\%(\.git\|\.svn\|\.hg\|node_modules\|vendor\|.*\.swp\|\.DS_Store\)$'
+    let g:fern#default_exclude = '^\%(\.git\|\.svn\|\.hg\|node_modules\|vendor\|\.venv\|.*\.swp\|\.DS_Store\)$'
     let g:fern#default_hidden = 1
-    let g:fern#renderer = 'nerdfont'
     let g:fern_disable_startup_warnings = 1
 
     autocmd vimrc FileType fern setlocal nonumber | nnoremap <buffer> q <Cmd>bdelete<CR>
@@ -327,7 +297,7 @@ if plug#begin()
     nnoremap <silent> <leader>e <Cmd>call <SID>OpenFern()<CR>
 
     " vim-lsp
-    let g:lsp_diagnostics_virtual_text_enabled = 0
+    let g:lsp_diagnostics_virtual_text_enabled = 1
     let g:lsp_use_native_client = 1
 
     nnoremap <C-k>      <plug>(lsp-signature-help)
@@ -356,10 +326,6 @@ if plug#begin()
 
     " vim-plug end
     call plug#end()
-
-    if len(filter(values(g:plugs), '!isdirectory(v:val.dir)'))
-        PlugInstall --sync
-    endif
 
     function! s:LoadPlugs(timer) abort
         call plug#load(keys(g:plugs))
