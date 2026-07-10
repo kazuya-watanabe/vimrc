@@ -1,9 +1,12 @@
-if version < 802
-    echoerr 'This vimrc requires Vim 8.2 or higher.'
+if version < 900
+    echoerr 'This vimrc requires Vim 9.0 or higher.'
     finish
 endif
 
 " initialize
+filetype indent plugin on
+syntax on
+
 if !exists('$MYVIMDIR')
     let $MYVIMDIR = expand(has('win32') ? '~/vimfiles' : '~/.vim')
 endif
@@ -19,7 +22,7 @@ set balloonevalterm
 set belloff=all
 set breakindent
 set clipboard^=unnamed
-set completeopt=menuone,noinsert,noselect
+set completeopt=menuone,noselect,popup
 set cmdheight=2
 set diffopt+=vertical
 set directory=$MYVIMDIR/swap | silent call mkdir(expand(&directory), 'p', 0700)
@@ -36,14 +39,13 @@ set incsearch
 set laststatus=2
 set lazyredraw
 set list
-set listchars=tab:>-,trail:_,extends:>,precedes:<,conceal:*,nbsp:_
+set listchars=tab:>-,trail:_,extends:>,precedes:<,conceal:*,nbsp:_,leadmultispace:\|\ :\ 
 set nrformats-=octal
 set number
 set ruler
 set scrolloff=10
 set sessionoptions+=globals,localoptions
 set shiftwidth=4
-set shortmess+=c
 set showbreak=-->\ 
 set showcmd
 set showmatch
@@ -56,6 +58,7 @@ set smartindent
 set smarttab
 set softtabstop=-1
 set spelllang=en,cjk
+set spelloptions=camel
 set splitbelow
 set splitright
 set statusline=%<%f\ %y%m%r%h%w%q%{'['.(&fileencoding!=''?&fileencoding:&encoding).']['.&fileformat.']'}%=%p%%\ [%l/%L\ %v]
@@ -70,21 +73,14 @@ set virtualedit=block
 set whichwrap+=<,>,~,[,]
 set wildignorecase
 set wildmode=longest:full,full
+set wildoptions=pum
 set nowritebackup
 
-if version > 802
-    set listchars+=leadmultispace:\|\ :\ 
-    set spelloptions=camel
-    set wildoptions=pum
-
-    if version > 901
-        set autocomplete
-        set complete+=o
-        set completeopt+=popup,preinsert
-        set completepopup=border:round
-        set diffopt+=linematch:60,inline:word
-        set infercase
-    endif
+if version >= 902
+    set autocomplete
+    set complete+=o
+    set diffopt+=linematch:60,inline:word
+    set infercase
 endif
 
 if executable('rg')
@@ -121,11 +117,11 @@ command! -nargs=* -complete=file Grep silent grep! <args> | cwindow
 let g:mapleader = ','
 let g:maplocalleader = ' '
 
-noremap j gj
-noremap k gk
-noremap n nzz
-noremap N Nzz
-noremap Y y$
+nnoremap j gj
+nnoremap k gk
+nnoremap n nzz
+nnoremap N Nzz
+nnoremap Y y$
 
 noremap! <C-a> <Home>
 noremap! <C-b> <Left>
@@ -143,11 +139,9 @@ else
 endif
 
 if executable('zenhan.exe')
-    noremap <silent> <Esc> <Cmd>call system('zenhan.exe 0')<CR><Esc>
-    noremap! <silent> <Esc> <Cmd>call system('zenhan.exe 0')<CR><Esc>
+    autocmd vimrc InsertLeave * call system('zenhan.exe 0')
 elseif executable('im-select')
-    noremap <Esc> <Cmd>call system('im-select com.apple.keylayout.ABC')<CR><Esc>
-    noremap! <Esc> <Cmd>call system('im-select com.apple.keylayout.ABC')<CR><Esc>
+    autocmd vimrc InsertLeave * call system('im-select com.apple.keylayout.ABC')
 endif
 
 " plugins
@@ -157,6 +151,12 @@ let g:loaded_netrw = 1 | let g:loaded_netrwPlugin = 1
 let g:loaded_tutor_mode_plugin = 1
 let g:loaded_vimballPlugin = 1 | let g:loaded_vimball = 1
 let s:vimplug_path = $MYVIMDIR . '/autoload/plug.vim'
+
+silent! packadd! matchit
+silent! packadd! editorconfig
+silent! packadd comment
+silent! packadd nohlsearch
+silent! packadd hlyank
 
 if !filereadable(s:vimplug_path)
     if !executable('git')
@@ -294,21 +294,17 @@ if plug#begin()
 
     nnoremap <C-k>      <plug>(lsp-signature-help)
     nnoremap K          <plug>(lsp-hover)
-
     nnoremap <leader>a  <plug>(lsp-code-action)
     nnoremap <leader>l  <plug>(lsp-code-lens)
     nnoremap <leader>rn <plug>(lsp-rename)
     nnoremap <leader>f  <plug>(lsp-document-format)
     xnoremap <leader>f  <plug>(lsp-document-range-format)
-
     nnoremap [g         <plug>(lsp-previous-diagnostic)
     nnoremap ]g         <plug>(lsp-next-diagnostic)
-
     nnoremap gd         <plug>(lsp-definition)
     nnoremap gi         <plug>(lsp-implementation)
     nnoremap gr         <plug>(lsp-references)
     nnoremap gy         <plug>(lsp-type-definition)
-
     nnoremap gs         <plug>(lsp-document-symbol-search)
     nnoremap gw         <plug>(lsp-workspace-symbol-search)
 
@@ -337,12 +333,6 @@ if plug#begin()
     " lazyload plugins
     function! s:LoadPlugs(timer) abort
         call plug#load(keys(g:plugs))
-
-        silent! packadd! matchit
-        silent! packadd! editorconfig
-        silent! packadd comment
-        silent! packadd nohlsearch
-        silent! packadd hlyank
     endfunction
 
     call timer_start(200, function('s:LoadPlugs'))
