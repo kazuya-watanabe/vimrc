@@ -164,7 +164,7 @@ silent! packadd nohlsearch
 silent! packadd hlyank
 
 " vim-plug
-if exists('*plug#begin') && plug#begin()
+if plug#begin()
     Plug 'NLKNguyen/papercolor-theme'
     Plug 'airblade/vim-gitgutter', { 'on': [] }
     Plug 'easymotion/vim-easymotion', { 'on': [] }
