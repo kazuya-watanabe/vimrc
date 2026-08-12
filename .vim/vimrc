@@ -197,13 +197,12 @@ if plug#begin()
                 \   'Ctrl-s': 'vsplit',
                 \   }
     let g:fzf_layout = { 'window': { 'width': 0.9, 'height': 0.8 } }
-    let g:fzf_vim = { 'command_prefix': 'Fzf' }
 
-    nnoremap <silent> fb <Cmd>FzfBuffers<CR>
-    nnoremap <silent> ff <Cmd>FzfFiles<CR>
-    nnoremap <silent> fg <Cmd>FzfGFiles<CR>
-    nnoremap <silent> fh <Cmd>FzfHistory<CR>
-    nnoremap <silent> fl <Cmd>FzfBLines<CR>
+    nnoremap <silent> fb <Cmd>Buffers<CR>
+    nnoremap <silent> ff <Cmd>Files<CR>
+    nnoremap <silent> fg <Cmd>GFiles<CR>
+    nnoremap <silent> fh <Cmd>History<CR>
+    nnoremap <silent> fl <Cmd>BLines<CR>
 
     " lightline.vim
     function! s:LightlineBufferlineFilter(buffer) abort
