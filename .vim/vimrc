@@ -16,7 +16,7 @@ set autoindent
 set autoread
 set background=dark
 set backup
-set backupdir=$MYVIMDIR/backup | silent call mkdir(expand(&backupdir), 'p', 0700)
+set backupdir=$MYVIMDIR/backup// | silent call mkdir(expand(&backupdir), 'p', 0700)
 set ballooneval
 set balloonevalterm
 set belloff=all
@@ -25,7 +25,7 @@ set clipboard^=unnamed
 set completeopt=menuone,noselect,popup
 set cmdheight=2
 set diffopt+=vertical
-set directory=$MYVIMDIR/swap | silent call mkdir(expand(&directory), 'p', 0700)
+set directory=$MYVIMDIR/swap// | silent call mkdir(expand(&directory), 'p', 0700)
 set display=truncate
 set encoding=utf-8
 set expandtab
@@ -44,7 +44,6 @@ set nrformats-=octal
 set number
 set ruler
 set scrolloff=10
-set sessionoptions+=globals,localoptions
 set shiftwidth=4
 set showbreak=-->\ 
 set showcmd
@@ -64,7 +63,7 @@ set statusline=%<%f\ %y%m%r%h%w%q%{'['.(&fileencoding!=''?&fileencoding:&encodin
 set tabstop=4
 set ttimeout
 set ttimeoutlen=50
-set undodir=$MYVIMDIR/undo | silent call mkdir(expand(&undodir), 'p', 0700)
+set undodir=$MYVIMDIR/undo// | silent call mkdir(expand(&undodir), 'p', 0700)
 set undofile
 set updatetime=200
 set viminfo+=n$MYVIMDIR/viminfo
@@ -108,9 +107,9 @@ augroup vimrc
     autocmd BufNewFile *.bat,*.cmd,*.ps1,*.reg setlocal fileformat=dos fileencoding=default
     autocmd FileType help,qf,aichat,fern,fugitive,git setlocal nonumber | nnoremap <buffer> q <Cmd>close<CR>
 
-    if executable('zenhan.exe')
+    if has('win32') && executable('zenhan.exe')
         autocmd InsertLeave * call job_start(['zenhan.exe', '0'])
-    elseif executable('im-select')
+    elseif has('mac') && executable('im-select')
         autocmd InsertLeave * call job_start(['im-select', 'com.apple.inputmethod.Kotoeri.RomajiTyping.Roman'])
     endif
 augroup END
@@ -165,11 +164,11 @@ silent! packadd nohlsearch
 silent! packadd hlyank
 
 " vim-plug
-if plug#begin()
+if exists('*plug#begin') && plug#begin()
     Plug 'NLKNguyen/papercolor-theme'
     Plug 'airblade/vim-gitgutter', { 'on': [] }
     Plug 'easymotion/vim-easymotion', { 'on': [] }
-    Plug 'godlygeek/tabular', { 'on': [] } | Plug 'dhruvasagar/vim-table-mode' | Plug 'preservim/vim-markdown', { 'on': [] }
+    Plug 'godlygeek/tabular', { 'on': [] } | Plug 'dhruvasagar/vim-table-mode', {'on': [] } | Plug 'preservim/vim-markdown', { 'on': [] }
     Plug 'itchyny/lightline.vim' | Plug 'mengelbrecht/lightline-bufferline', { 'on': [] }
     Plug 'junegunn/fzf', { 'on': [] } | Plug 'junegunn/fzf.vim', { 'on': [] }
     Plug 'lambdalisue/vim-fern', { 'on': [] }
@@ -302,7 +301,7 @@ if plug#begin()
     call plug#end()
 
     " papercolor-theme
-    colorscheme PaperColor
+    silent! colorscheme PaperColor
 
     highlight! link Terminal Normal
 
