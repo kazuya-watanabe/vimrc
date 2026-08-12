@@ -7,7 +7,7 @@ endif
 filetype indent plugin on
 syntax on
 
-if !exists('$MYVIMDIR')
+if !exists('$MYVIMDIR') || empty($MYVIMDIR)
     let $MYVIMDIR = expand(has('win32') ? '~/vimfiles' : '~/.vim')
 endif
 
@@ -105,8 +105,14 @@ endif
 " autocmds
 augroup vimrc
     autocmd!
-    autocmd BufNewFile,BufRead *.bat,*.cmd,*.ps1,*.reg setlocal fileformat=dos fileencoding=default
+    autocmd BufNewFile *.bat,*.cmd,*.ps1,*.reg setlocal fileformat=dos fileencoding=default
     autocmd FileType help,qf,aichat,fern,fugitive,git setlocal nonumber | nnoremap <buffer> q <Cmd>close<CR>
+
+    if executable('zenhan.exe')
+        autocmd InsertLeave * call job_start(['zenhan.exe', '0'])
+    elseif executable('im-select')
+        autocmd InsertLeave * call job_start(['im-select', 'com.apple.inputmethod.Kotoeri.RomajiTyping.Roman'])
+    endif
 augroup END
 
 " commands
@@ -122,13 +128,21 @@ nnoremap n nzz
 nnoremap N Nzz
 nnoremap Y y$
 
-noremap! <C-a> <Home>
-noremap! <C-b> <Left>
-noremap! <C-d> <Del>
-noremap! <C-e> <End>
-noremap! <C-f> <Right>
-noremap! <C-n> <Down>
-noremap! <C-p> <Up>
+cnoremap <C-a> <Home>
+cnoremap <C-b> <Left>
+cnoremap <C-d> <Del>
+cnoremap <C-e> <End>
+cnoremap <C-f> <Right>
+cnoremap <C-n> <Down>
+cnoremap <C-p> <Up>
+
+inoremap <C-a> <Home>
+inoremap <C-b> <Left>
+inoremap <C-d> <Del>
+inoremap <C-e> <End>
+inoremap <C-f> <Right>
+inoremap <C-n> <Down>
+inoremap <C-p> <Up>
 
 if has('win32')
     set completeslash=slash
@@ -137,41 +151,18 @@ else
     nnoremap <silent> <leader>sh <Cmd>terminal ++close ++rows=12<CR><Cmd>setlocal winfixheight<CR>
 endif
 
-if executable('zenhan.exe')
-    autocmd vimrc InsertLeave * call system('zenhan.exe 0')
-elseif executable('im-select')
-    autocmd vimrc InsertLeave * call system('im-select com.apple.keylayout.ABC')
-endif
-
 " plugins
 let g:loaded_getscriptPlugin = 1
 let g:loaded_logiPat = 1
 let g:loaded_netrw = 1 | let g:loaded_netrwPlugin = 1
 let g:loaded_tutor_mode_plugin = 1
 let g:loaded_vimballPlugin = 1 | let g:loaded_vimball = 1
-let s:vimplug_path = $MYVIMDIR . '/autoload/plug.vim'
 
 silent! packadd! matchit
 silent! packadd! editorconfig
 silent! packadd comment
 silent! packadd nohlsearch
 silent! packadd hlyank
-
-if !filereadable(s:vimplug_path)
-    if !executable('git')
-        echoerr 'Please install git first.'
-        finish
-    endif
-
-    if executable('curl')
-        call system('curl -fLo ' . shellescape(s:vimplug_path) . ' --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim')
-    endif
-
-    if !filereadable(s:vimplug_path)
-        echoerr 'Please install the vim-plug manually. You can download it from https://github.com/junegunn/vim-plug and put it in ' . s:vimplug_path
-        finish
-    endif
-endif
 
 " vim-plug
 if plug#begin()
@@ -208,10 +199,6 @@ if plug#begin()
                 \   }
     let g:fzf_layout = { 'window': { 'width': 0.9, 'height': 0.8 } }
     let g:fzf_vim = { 'command_prefix': 'Fzf' }
-
-    if executable('rg')
-        command! -complete=file -bang -nargs=* Grep call fzf#vim#grep('rg --follow --hidden --smart-case --with-filename --column --line-number --no-heading --color=always -- ' . <q-args>, fzf#vim#with_preview(), <bang>0)
-    endif
 
     nnoremap <silent> fb <Cmd>FzfBuffers<CR>
     nnoremap <silent> ff <Cmd>FzfFiles<CR>
