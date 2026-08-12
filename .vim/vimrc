@@ -52,7 +52,6 @@ set showmatch
 set showtabline=2
 set sidescroll=1
 set sidescrolloff=20
-set signcolumn=yes
 set smartcase
 set smartindent
 set smarttab
@@ -316,16 +315,6 @@ if plug#begin()
     call plug#end()
 
     " papercolor-theme
-    if !has('gui_running')
-        let g:PaperColor_Theme_Options = {
-                    \   'theme': {
-                    \       'default': {
-                    \           'transparent_background': 1
-                    \           }
-                    \       }
-                    \   }
-    endif
-
     colorscheme PaperColor
 
     highlight! link Terminal Normal
