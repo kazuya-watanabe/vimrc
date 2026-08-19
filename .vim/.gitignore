@@ -1,3 +1,5 @@
+backup/
 plugged/
-init.vim
+swap/
+undo/
 viminfo
