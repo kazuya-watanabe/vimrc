@@ -181,10 +181,6 @@ if plug#begin()
         Plug 'iamcco/markdown-preview.nvim', { 'do': { -> mkdp#util#install() }, 'for': ['markdown', 'vim-plug'] }
     endif
 
-    if has('python3')
-        Plug 'madox2/vim-ai', { 'on': [] }
-    endif
-
     " fzf
     if executable('fd')
         let $FZF_DEFAULT_COMMAND = 'fd --hidden --follow --type f'
@@ -250,13 +246,6 @@ if plug#begin()
     nnoremap <Esc>l <Plug>lightline#bufferline#go_next()
     nnoremap <Esc>L <Plug>lightline#bufferline#move_next()
     nnoremap <Esc>H <Plug>lightline#bufferline#move_previous()
-
-    " vim-ai
-    let g:vim_ai_chat_markdown = 1
-    let g:vim_ai_token_file_path = exists('$XDG_CONFIG_HOME')
-                \   ? expand('$XDG_CONFIG_HOME/openai.token')
-                \   : expand('$HOME/.config/openai.token')
-    let g:vim_ai_roles_config_file = $MYVIMDIR . '/roles.ini'
 
     " vim-fern
     function! s:OpenFern() abort
