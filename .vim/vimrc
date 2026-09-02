@@ -168,7 +168,7 @@ if plug#begin()
     Plug 'NLKNguyen/papercolor-theme'
     Plug 'airblade/vim-gitgutter', { 'on': [] }
     Plug 'easymotion/vim-easymotion', { 'on': [] }
-    Plug 'godlygeek/tabular', { 'on': [] } | Plug 'dhruvasagar/vim-table-mode', {'on': [] } | Plug 'preservim/vim-markdown', { 'on': [] }
+    Plug 'godlygeek/tabular', { 'on': [] } | Plug 'dhruvasagar/vim-table-mode', {'on': [] }
     Plug 'itchyny/lightline.vim' | Plug 'mengelbrecht/lightline-bufferline', { 'on': [] }
     Plug 'junegunn/fzf', { 'on': [] } | Plug 'junegunn/fzf.vim', { 'on': [] }
     Plug 'lambdalisue/vim-fern', { 'on': [] }
